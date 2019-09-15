@@ -50,7 +50,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'Bike_bla_bla.urls'
+ROOT_URLCONF = 'Bike_Pool_App.urls'
 
 TEMPLATES = [
     {
