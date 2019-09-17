@@ -6,6 +6,17 @@
     <meta charset="UTF-8">
     <title>Find Ride</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzdxHAyALpK_IyWNqoCIryUYpoeTiDgdo&libraries=places&callback=initMap"async defer></script>
+
+    <style>
+        #map {
+            height: calc(100vh - 60px);
+            width: 50%;
+            margin-left: auto;
+
+        }
+    </style>
 </head>
 <body>
 <title>Find a ride</title>
@@ -14,6 +25,31 @@
     {{ form }}
     <input type="submit" value="Submit">
 </form>
+</div>
+<div id="map"></div>
+<div id="infowindow-content">
+    <img src="" width="16" height="16" id="place-icon">
+    <span id="place-name" class="title"></span><br>
+    <span id="place-address"></span>
+</div>
+
+<script>
+
+    function initMap() {
+
+        var input = document.getElementById('id_pickup');
+        var dropoff = document.getElementById('id_dropoff');
+        var autocomplete_pickup = new google.maps.places.Autocomplete(input);
+        var autocomplete_dropoff = new google.maps.places.Autocomplete(dropoff);
+
+
+    };
+
+
+
+
+</script>
+
 </body>
 </html>
 
