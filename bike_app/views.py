@@ -3,8 +3,11 @@ from bike_app.models import rideData
 from bike_app.serializers import rideDataSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
-from bike_app.forms import findRideform
+from bike_app.forms import findRideform, offerRideform
+from django.http import HttpRequest,HttpResponse
 from rest_framework.views import APIView
+
+
 # Create your views here.
 
 
@@ -32,20 +35,40 @@ class fetchrideData(viewsets.ModelViewSet):
             else:
                 return Response('Please check your data')
 
-    def list(self, request, *args, **kwargs):
-        return render(request, template_name = self.template_name)
-
-
-
-class searchRide(viewsets.ViewSet):
-    queryset = rideData.objects.all()
-    template_name = 'bike_app/find_ride.html'
-
     def list(self, request, format = None):
-        ride_form = findRideform()
-        args = {'form' : ride_form}
+        form = offerRideform()
+        args = {'form' : form}
         return render(request, self.template_name, args)
 
+
+def offerRide(request):
+    if request.method == 'POST':
+
+        data = request.POST
+        pickup = data['pickup']
+        dropoff = data['dropoff']
+        stopover_list = []
+        for i in range(0, len(data) - 3):
+            stopover_list.append(data['stopover_' + str(i)])
+        print(stopover_list)
+
+
+
+    elif request.method == 'GET':
+        form = offerRideform()
+        args = {'form': form}
+        return render(request,'bike_app/offer_ride.html', args)
+
+
+
+
+
+
+
+
+def getRideDetails(request):
+    formDate = findRideform(request.POST)
+    ridersData = rideData.objects.filter()
 
 
 
