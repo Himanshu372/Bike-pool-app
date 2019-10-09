@@ -9,6 +9,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=**&libraries=places&callback=initMap"async defer></script>
 
+
     <style>
         #map {
             height: calc(100vh - 60px);
@@ -20,10 +21,14 @@
 </head>
 <body>
 <title>Find a ride</title>
-<form action="/your-name/" method="post">
+<form action="/find_ride/" method="post">
     {% csrf_token %}
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript jquery='full' %}
     {{ form }}
-    <input type="submit" value="Submit">
+    {{ form.media }}{# Adds date-picker required JS and CSS #}
+    <input type="submit" value="Submit" id="submitbutton">
 </form>
 </div>
 <div id="map"></div>
@@ -44,12 +49,62 @@
 
 
     };
-
-
-
-
 </script>
 
+
+
+<script>
+    $("#submitbutton").click(function() {
+
+        var csrf_token = '{{csrf_token}}';
+        var pickup = new google.maps.places.Autocomplete($("#id_pickup").val());
+        var dropoff = $("#id_dropoff").val();
+        var date = $("#id_date").val();
+        var time = $("#id_time").val();
+
+        $.ajax({
+            headers: { "X-CSRFToken": csrf_token },
+            type: "POST",
+            url: "/find_ride",
+            async: true,
+            data: {
+                pickup: pickup,
+                dropoff: dropoff,
+                date: date,
+                time: time
+            },
+            success: function(data) {
+
+                console.log('Success');
+
+                {#new Chart(document.getElementById("line-chart"), {#}
+                {#    type: data['type'],#}
+                {#    data: {#}
+                {#        labels: data['data']['labels'],#}
+                {#        datasets: [{#}
+                {#            data: data['data']['datasets'][0]['data'],#}
+                {#            label: data['data']['datasets'][0]['label'],#}
+                {#            borderColor: data['data']['datasets'][0]['borderColor'],#}
+                {#            fill: false#}
+                {#        }]#}
+                {#    },#}
+                {#    options: {#}
+                {#        title: {#}
+                {#            display: true,#}
+                {#            text: 'Exchange Rate Forecast'#}
+                {#        }#}
+                {#    }#}
+                {#});#}
+
+
+
+
+
+            }
+        });
+    });
+
+</script>
 </body>
 </html>
 

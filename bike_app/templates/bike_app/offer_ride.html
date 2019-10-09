@@ -1,10 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Offer_ride</title>
+    <title>Offer Ride</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=**&libraries=places&callback=initMap"
+            async defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    {% load static %}
 </head>
 <body>
+<style>
+    #map {
+        height: calc(100vh - 60px);
+        width: 50%;
+        margin-left: auto;
+    }
+
+
+</style>
+
+<div class="container">
+
+    <form class="form-horizontal" action="http://127.0.0.1:8000/offer_ride/" method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">Departure Location</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="id_pickup" placeholder="Enter starting location"
+                       name="pickup">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2">Arrival Location</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="id_dropoff" placeholder="Enter ending location"
+                       name="dropoff">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-sm-2">StopOvers:</label>
+            <div class="col-sm-6">
+                <div class="col-sm-6" id="dynamicInput">
+                    Entry 1<br><input type="text" name="stopover_0">
+                </div>
+                <div>
+                    <input type="button" value="Add another text input" onClick="addInput('dynamicInput');">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group has-feedback">
+            <label class="control-label col-sm-2">Departure Date & Time</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="datetimepicker1" name="datetimepicker"/>
+{#                 <div class="input-group-addon">#}
+{#                    <span class="glyphicon glyphicon-calendar"></span>#}
+                    <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+{#                 </div>#}
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label><input type="checkbox" name="remember">Round trip</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-default">Submit</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+<div id="map"></div>
+<div id="infowindow-content">
+    <img src="" width="16" height="16" id="place-icon">
+    <span id="place-name" class="title"></span><br>
+    <span id="place-address"></span>
+</div>
+<script>
+    function initMap() {
+        var input = document.getElementById('id_pickup');
+        var dropoff = document.getElementById('id_dropoff');
+        var stopovers = document.getElementById('id_stopovers');
+        var autocomplete_pickup = new google.maps.places.Autocomplete(input);
+        var autocomplete_dropoff = new google.maps.places.Autocomplete(dropoff);
+        var autocomplete_stopovers = new google.maps.places.Autocomplete(stopovers);
+    };
+
+
+    var counter = 1;
+    {#var limit = 4;#}
+
+    function addInput(divName) {
+
+        var newdiv = document.createElement('div');
+        newdiv.innerHTML = "Entry " + (counter + 1) + " <br><input type='text' name='stopover_" + counter + "'>";
+        document.getElementById(divName).appendChild(newdiv);
+        counter++;
+
+    }
+</script>
+
+<script>
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+</script>
+
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

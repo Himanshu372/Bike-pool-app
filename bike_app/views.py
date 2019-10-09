@@ -4,8 +4,12 @@ from bike_app.serializers import rideDataSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from bike_app.forms import findRideform
+from django.http import HttpRequest,HttpResponse
 from rest_framework.views import APIView
-# Create your views here.
+from bike_app.processing_data import get_location, cal_haversine_distance
+from datetime import datetime
+
+
 
 
 
@@ -13,41 +17,77 @@ def home(request):
     return render(request, 'bike_app/index.html')
 
 
-class fetchrideData(viewsets.ModelViewSet):
+class offerRide(viewsets.ModelViewSet):
     queryset = rideData.objects.all()
     template_name = 'bike_app/offer_ride.html'
 
 
     def create(self, request, *args, **kwargs):
-        post_data = request.data
-        serializer = rideDataSerializer(data = post_data)
-        user_id = post_data['user_id']
-        depart_time = post_data['depart_time']
-        if self.queryset.filter(user_id = user_id, depart_time = depart_time).exists():
-            return Response('You have already created a ride for given departure time')
+        # try:
+        data = request.POST
+        pickup = data['pickup']
+        dropoff = data['dropoff']
+        pickup_lat_long = get_location(pickup)
+        dropoff_lat_long = get_location(dropoff)
+        date_time = data['datetimepicker']
+        date_time_field = datetime.strftime(datetime.strptime(date_time, '%m/%d/%Y %H:%M %p'),'%Y-%m-%d %H:%M:%S')
+        stopover_list = []
+        for i in range(0, len(data) - 4):
+            stopover_list.append(data['stopover_' + str(i)])
+        stopover_lat_long_list = [str(get_location(k)) for k in stopover_list]
+        rideData_obj = rideData(user_id = 101, pickup = str(pickup_lat_long), dropoff = str(dropoff_lat_long), stopovers = ''.join(stopover_lat_long_list), depart_time = date_time_field)
+        if self.queryset.filter(user_id = 101, pickup = str(pickup), depart_time = date_time_field).exists():
+            pass
         else:
-            if serializer.is_valid():
-                serializer.save()
-                return Response('Your ride has been saved, expect bookings anytime')
-            else:
-                return Response('Please check your data')
+            rideData_obj.save()
+            return HttpResponse('Success')
+        # except:
+        #     return HttpResponse('Please check your input data')
 
-    def list(self, request, *args, **kwargs):
-        return render(request, template_name = self.template_name)
-
+    def list(self, request):
+        return render(request, self.template_name)
 
 
-class searchRide(viewsets.ViewSet):
+
+
+
+# def findRide(request):
+#     form = findRideform()
+#     args = {'form' : form}
+#     if request.method == 'GET':
+#         return render(request, 'bike_app/find_ride.html',args)
+#
+#     elif request.method == 'POST':
+#         pickup = request.POST['pickup']
+#         geolocation = get_location(pickup)
+#         return HttpResponse('Success')
+
+
+class findRide(viewsets.ModelViewSet):
     queryset = rideData.objects.all()
     template_name = 'bike_app/find_ride.html'
 
-    def list(self, request, format = None):
-        ride_form = findRideform()
-        args = {'form' : ride_form}
+    def list(self, request, *args, **kwargs):
+        form = findRideform
+        args = {'form' : form}
         return render(request, self.template_name, args)
 
-
-
+    def create(self, request, *args, **kwargs):
+        data = request.POST
+        pickup_loc = data['pickup']
+        dropoff_loc = data['dropoff']
+        travel_date = data['date']
+        travel_time = data['time']
+        travel_date_time = datetime.strftime(datetime.strptime(travel_date + ' ' + travel_time, '%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M:%S')
+        pickup_lat_long = get_location(pickup_loc)
+        dropoff_lat_long = get_location(dropoff_loc)
+        rides = self.queryset.filter(depart_time__date = travel_date)
+        pickup_dist_list = []
+        for each_ride in rides:
+            dist = cal_haversine_distance(str(pickup_lat_long), each_ride.pickup)
+            pickup_dist_list.append(dist)
+        pickup_dist_list = sorted(pickup_dist_list, reverse = True)
+        return HttpResponse('Success')
 
 
 
