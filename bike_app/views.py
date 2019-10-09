@@ -6,9 +6,9 @@ from rest_framework.response import Response
 from bike_app.forms import findRideform
 from django.http import HttpRequest,HttpResponse
 from rest_framework.views import APIView
-from bike_app.processing_data import get_location
+from bike_app.processing_data import get_location, cal_haversine_distance
 from datetime import datetime
-import math
+
 
 
 
@@ -82,8 +82,11 @@ class findRide(viewsets.ModelViewSet):
         pickup_lat_long = get_location(pickup_loc)
         dropoff_lat_long = get_location(dropoff_loc)
         rides = self.queryset.filter(depart_time__date = travel_date)
-        # Haversine formula for calculating distance
-
+        pickup_dist_list = []
+        for each_ride in rides:
+            dist = cal_haversine_distance(str(pickup_lat_long), each_ride.pickup)
+            pickup_dist_list.append(dist)
+        pickup_dist_list = sorted(pickup_dist_list, reverse = True)
         return HttpResponse('Success')
 
 
