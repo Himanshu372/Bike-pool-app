@@ -27,6 +27,8 @@ class offerRide(viewsets.ModelViewSet):
         data = request.POST
         pickup = data['pickup']
         dropoff = data['dropoff']
+
+        # Should add a validation check here
         pickup_lat_long = get_location(pickup)
         dropoff_lat_long = get_location(dropoff)
         date_time = data['datetimepicker']
@@ -79,15 +81,20 @@ class findRide(viewsets.ModelViewSet):
         travel_date = data['date']
         travel_time = data['time']
         travel_date_time = datetime.strftime(datetime.strptime(travel_date + ' ' + travel_time, '%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M:%S')
+
+        # Should include a validation check here
         pickup_lat_long = get_location(pickup_loc)
         dropoff_lat_long = get_location(dropoff_loc)
         rides = self.queryset.filter(depart_time__date = travel_date)
-        pickup_dist_list = []
+        results = {}
         for each_ride in rides:
             dist = cal_haversine_distance(str(pickup_lat_long), each_ride.pickup)
-            pickup_dist_list.append(dist)
-        pickup_dist_list = sorted(pickup_dist_list, reverse = True)
-        return HttpResponse('Success')
+            results[each_ride.user_id] = {}
+            results[each_ride.user_id]['distance'] = dist
+            results[each_ride.user_id]['depart_time'] = datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d')
+            results[each_ride.user_id]['fare'] = round(50 + 12 * dist)
+        results = sorted(results.items(), key = lambda x : x[1]['distance'], reverse = True)
+        return HttpResponse(results)
 
 
 
