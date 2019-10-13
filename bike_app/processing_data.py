@@ -1,6 +1,7 @@
 import requests
 import json
 import math
+import re
 
 MAPQUEST_URL = 'http://www.mapquestapi.com/geocoding/v1/address?key=SsRGOwY10OEkejYJYB2ACoaUiNtDDoIv'
 
@@ -12,16 +13,21 @@ def get_location(loc_string):
     :param loc_string:
     :return:
     '''
-    try:
-        get_mapquest_url = MAPQUEST_URL + '&location={}'.format(loc_string)
-        get_mapquest_response = requests.get(get_mapquest_url)
-        if get_mapquest_response.status_code == 200:
-            response_text_dict = json.loads(get_mapquest_response.text)
-            loc_results = response_text_dict['results'][0]['locations']
-            if len(loc_results) == 1:
-                return loc_results[0]['latLng']['lat'], loc_results[0]['latLng']['lng']
-    except:
-        return None
+    # try:
+    loc_list = [i for i in re.split('\s|,', loc_string) if len(i) > 0]
+    country = loc_list.pop()
+    state = loc_list.pop()
+    city = loc_list.pop()
+    street = '+'.join(loc_list)
+    get_mapquest_url = MAPQUEST_URL + '&street={}'.format(street) + '&city={}'.format(city) + '&state={}'.format(state) + '&country={}'.format(country)
+    get_mapquest_response = requests.get(get_mapquest_url)
+    if get_mapquest_response.status_code == 200:
+        response_text_dict = json.loads(get_mapquest_response.text)
+        loc_results = response_text_dict['results'][0]['locations']
+        if len(loc_results) == 1:
+            return loc_results[0]['latLng']['lat'], loc_results[0]['latLng']['lng']
+    # except:
+    #     return None
 
 
 def cal_haversine_distance(cord_1, cord_2):
@@ -40,3 +46,4 @@ def cal_haversine_distance(cord_1, cord_2):
     c = 2 * math.atan2(pow(a, .5), pow((1 - a), .5))
     distance = R * c
     return distance
+
