@@ -13,6 +13,7 @@ router.register(r'offer_ride', views.offerRide)
 
 
 
+
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
@@ -23,3 +24,4 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 ]
+

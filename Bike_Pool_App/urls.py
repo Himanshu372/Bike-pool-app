@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from django.contrib.auth.views import auth_login
+from django.conf import settings
+from django.shortcuts import redirect
 from bike_app import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('login/', views.login),
     path('', include('bike_app.urls')),
+    path('', include('social_django.urls', namespace = 'social')),
+
 ]
