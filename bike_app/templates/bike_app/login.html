@@ -2,12 +2,11 @@
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>BIKE_POOL_APP</title>
-    <link rel="stylesheet" href="../static/bike_app/homepage.css">
+	<link rel="stylesheet" type="text/css" href="../static/bike_app/login.css">
+	<title>Login Page</title>
 </head>
 <body>
-<!-- Navbar brand -->
+<!--Header-->
 	<header class="page-width">
 		<div class="clearfix">
 			<em class="name">
@@ -21,9 +20,6 @@
 					<li class="nav-item">
 					    <a class="nav-link" href="/offer_ride">Offer Ride</a>
 					</li>
-					<li class="nav-item">
-					    <a class="nav-link" href="/login">Sign Up/Login</a>
-					</li>
 					<!-- <li class="nav-item">
 					    <a class="nav-link" href="#">Login</a>
 					</li> -->
@@ -32,14 +28,13 @@
 		</div>		
 	</header>
 
+<!--Login Container-->
 
-<!--Main Visual-->
-
-	<div class="page-visual">
-		<figure class="main-visual">
-			<img src="https://place-hold.it/1047x592">
-				<a href="/find_ride">Find Bike</a>
-		</figure>
+	<div class="login-container">
+		<div class="login-box">
+			<h2 class="login-title">LOGIN</h2>
+		</div>
 	</div>
+	<!-- <a href="{% url "social:begin" "google-oauth2" %}">Google+</a> -->
 </body>
 </html>

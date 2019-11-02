@@ -8,6 +8,8 @@ from django.http import HttpRequest,HttpResponse
 from rest_framework.views import APIView
 from bike_app.processing_data import get_location, cal_haversine_distance
 from datetime import datetime
+from bike_app.response_classes import findRideResponse
+from django.core import serializers
 
 
 
@@ -15,6 +17,10 @@ from datetime import datetime
 
 def home(request):
     return render(request, 'bike_app/index.html')
+
+
+def login(request):
+    return render(request, 'bike_app/login.html')
 
 
 class offerRide(viewsets.ModelViewSet):
@@ -86,19 +92,18 @@ class findRide(viewsets.ModelViewSet):
         pickup_lat_long = get_location(pickup_loc)
         dropoff_lat_long = get_location(dropoff_loc)
         rides = self.queryset.filter(depart_time__date = travel_date)
-        results = {}
+        results = []
         for each_ride in rides:
             dist = cal_haversine_distance(str(pickup_lat_long), each_ride.pickup)
-            results[each_ride.user_id] = {}
-            results[each_ride.user_id]['distance'] = dist
-            results[each_ride.user_id]['depart_time'] = datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d')
-            results[each_ride.user_id]['fare'] = round(50 + 12 * dist)
-        results = sorted(results.items(), key = lambda x : x[1]['distance'], reverse = True)
+            # results[each_ride.user_id] = {}
+            # results[each_ride.user_id]['distance'] = dist
+            # results[each_ride.user_id]['depart_time'] = datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d')
+            # results[each_ride.user_id]['fare'] = round(50 + 12 * dist)
+            respone_obj = findRideResponse(user_id = each_ride.user_id, distance = dist, depart_time = datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d'), fare = round(50 + 12 * dist))
+            results.append(respone_obj)
+        results = sorted(results, key = lambda x : x.distance, reverse = True)
+        results = serializers.serialize('json', results)
         return HttpResponse(results)
-
-
-
-
 
 
 
