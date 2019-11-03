@@ -24,7 +24,6 @@ from bike_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.login),
     path('', include('bike_app.urls')),
     path('', include('social_django.urls', namespace = 'social')),
 

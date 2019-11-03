@@ -2,8 +2,8 @@
 {% load static %}
 <html lang="en">
 <head>
-	<link rel="stylesheet" type="text/css" href="../static/bike_app/login.css">
-	<title>Login Page</title>
+	<link rel="stylesheet" type="text/css" href="../static/bike_app/signup.css">
+	<title>Signup Page</title>
 </head>
 <body>
 <!--Header-->
@@ -21,25 +21,31 @@
 					    <a class="nav-link" href="/offer_ride">Offer Ride</a>
 					</li>
 					<!-- <li class="nav-item">
-					    <a class="nav-link" href="#">Login</a>
+					    <a class="nav-link" href="#">signup</a>
 					</li> -->
 				</ul>
 			</nav>
 		</div>		
 	</header>
 
-<!--Login Container-->
+<!--signup Container-->
 
-	<div class="login-container">
-		<div class="login-box">
-			<h2 class="login-title">LOG IN</h2>
-				<form class="login-form data-block">
+	<div class="signup-container">
+		<div class="signup-box">
+			<h2 class="signup-title">SIGN UP</h2>
+				<form class="signup-form data-block" method="POST" action="/signup">
 					{% csrf_token %}
+					{{ form.firstname }}
+					{{ form.lastname }}
 					{{ form.email }}
 					{{ form.password }}
 				</form>
-				<div class="login-submit-button">
-					<button class="login-submit title">LOG IN</button>
+				<div class="signup-submit-button">
+					<button class="signup-submit title" type="submit">REGISTER</button>
+				</div>
+				<div class="login-redirection-container">
+					<p>Already a member <a href="/login" class="login-redirection-href">Login!</a></p>
+					
 				</div>
 		</div>
 	</div>

@@ -18,3 +18,15 @@ class rideData(models.Model):
     #     return 'Ride starts from {} at {} and ends at {} with stopovers at {}'.format(self.pickup, datetime.datetime(self.depart_time).time(), self.dropoff, )
 
 
+
+
+class user(models.Model):
+    user_id = models.AutoField(primary_key = True)
+    first_name = models.CharField(max_length = 1000, null = False)
+    last_name = models.CharField(max_length = 1000, null = False)
+    email = models.EmailField(max_length = 1000, null = False)
+    password = models.CharField(max_length= 1000, null = False)
+
+
+
+
