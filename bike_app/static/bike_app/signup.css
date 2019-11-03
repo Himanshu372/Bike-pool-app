@@ -87,9 +87,9 @@ a {
 
 
 
-/* Login Container */
+/* Signup Container */
 
-.login-container{
+.signup-container{
 	padding:50px;
 	background-color: #f3e9f2;
 	text-align: center;
@@ -98,36 +98,38 @@ a {
 
 }
 
-	.login-box{
+	.signup-box{
 		padding: 20px;
 		width: 430px;
 		background-color: #fff;
 		display: inline-block;
-		height: 400px;
+		height: 450px;
 		position: relative;
 		text-align: center;
 	}
 
 
-		.login-form{
-			margin-top: 200px;
+		.signup-form{
+			margin-top: 175px;
 			display: inline-block;
 		}
 
 
-			.login-email{
+			.signup-email{
 				display: block;
 
 			}
 
-			.login-password{
+			.signup-password{
 				display: block;
 			}
 
+			.signup-firstname{
+				display: block;
+			}
+
+			.signup-lastname{
+				display: block;
+			}
 
 			
-
-
-
-
-

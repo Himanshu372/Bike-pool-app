@@ -1,16 +1,16 @@
 from django.shortcuts import render
-from bike_app.models import rideData
+from bike_app.models import rideData, user
 from bike_app.serializers import rideDataSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
-from bike_app.forms import findRideform
+from bike_app.forms import findRideform, userLogin, userSignup
 from django.http import HttpRequest,HttpResponse
 from rest_framework.views import APIView
 from bike_app.processing_data import get_location, cal_haversine_distance
 from datetime import datetime
 from bike_app.response_classes import findRideResponse
 from django.core import serializers
-
+from django.contrib.auth.models import User
 
 
 
@@ -19,8 +19,48 @@ def home(request):
     return render(request, 'bike_app/index.html')
 
 
-def login(request):
-    return render(request, 'bike_app/login.html')
+# def login(request):
+#     return render(request, 'bike_app/login.html')
+
+
+class userLogin(viewsets.ModelViewSet):
+    queryset = user.objects.all()
+    template_name = 'bike_app/login.html'
+    login_form = userLogin()
+
+    def list(self, request, *args, **kwargs):
+        login_form = self.login_form
+        args = {'form' : login_form}
+        return render(request, self.template_name, args)
+
+
+class userSignup(viewsets.ModelViewSet):
+    queryset = user.objects.all()
+    template_name = 'bike_app/signup.html'
+    signup_form = userSignup()
+
+    def list(self, request, *args, **kwargs):
+        signup_form = self.signup_form
+        args = {'form': signup_form}
+        return render(request, self.template_name, args)
+
+
+    def create(self, request, *args, **kwargs):
+        # try:
+        django_auth_user = User()
+        data = request.POST
+        user_email = data['email']
+        user_firstname = data['firstname']
+        user_lastname = data['lastname']
+        user_password = django_auth_user.set_password(data['password'])
+        if self.queryset.filter(email = user_email).exists():
+            pass
+        else:
+            new_user = user(first_name = user_firstname, last_name = user_lastname, email = user_email, password = user_password)
+            new_user.save()
+        # except:
+        #     return Response('Form data not valid')
+
 
 
 class offerRide(viewsets.ModelViewSet):
