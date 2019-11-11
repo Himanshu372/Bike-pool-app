@@ -29,6 +29,7 @@ class userSignup(forms.Form):
         attrs={
             'class': 'signup-password',
             'placeholder': 'Password',
+            'type':'password'
         }
     ))
 
