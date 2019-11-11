@@ -11,7 +11,9 @@ from datetime import datetime
 from bike_app.response_classes import findRideResponse
 from django.core import serializers
 from django.contrib.auth.models import User
-
+from django.contrib.auth.hashers import make_password
+from django.shortcuts import redirect
+from django.contrib import messages
 
 
 
@@ -47,17 +49,19 @@ class userSignup(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         # try:
-        django_auth_user = User()
         data = request.POST
         user_email = data['email']
         user_firstname = data['firstname']
         user_lastname = data['lastname']
-        user_password = django_auth_user.set_password(data['password'])
+        user_password = make_password(data['password'])
         if self.queryset.filter(email = user_email).exists():
-            pass
+            messages.info(request, 'This email id already exists, kindly enter a different address')
+            return redirect('/signup')
         else:
             new_user = user(first_name = user_firstname, last_name = user_lastname, email = user_email, password = user_password)
             new_user.save()
+            messages.info(request, 'Thanks for signing in!')
+            return redirect('')
         # except:
         #     return Response('Form data not valid')
 

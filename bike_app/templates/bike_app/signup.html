@@ -33,16 +33,19 @@
 	<div class="signup-container">
 		<div class="signup-box">
 			<h2 class="signup-title">SIGN UP</h2>
-				<form class="signup-form data-block" method="POST" action="/signup">
+				<form class="signup-form data-block" method="POST" action="/signup/">
 					{% csrf_token %}
 					{{ form.firstname }}
 					{{ form.lastname }}
 					{{ form.email }}
 					{{ form.password }}
+					<div class="signup-submit-button">
+						<button class="signup-submit title" type="submit" id="register-button">REGISTER</button>
+					</div>
 				</form>
-				<div class="signup-submit-button">
-					<button class="signup-submit title" type="submit">REGISTER</button>
-				</div>
+				
+				<div class="alert message" role="alert">{{ message }}</div>
+
 				<div class="login-redirection-container">
 					<p>Already a member <a href="/login" class="login-redirection-href">Login!</a></p>
 					
