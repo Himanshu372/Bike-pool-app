@@ -16,9 +16,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/bike_app/offer_ride.css">
     {% load static %}
 </head>
 <body>
+
+
+<!--Header-->
+    <header class="page-width">
+        <div class="clearfix">
+            <em class="name">
+                <a href="/">POOL YOUR BIKE</a>
+            </em>
+            <nav>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/find_ride">Find Bike</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/offer_ride">Offer Ride</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#">signup</a>
+                    </li> -->
+                </ul>
+            </nav>
+        </div>      
+    </header>
+
+
+
 <style>
     #map {
         height: calc(100vh - 60px);
@@ -97,6 +124,8 @@
     <span id="place-name" class="title"></span><br>
     <span id="place-address"></span>
 </div>
+
+
 <script>
     function initMap() {
         var input = document.getElementById('id_pickup');
