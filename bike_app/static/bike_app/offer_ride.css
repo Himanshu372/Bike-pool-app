@@ -89,11 +89,27 @@ a {
 
 /* container */
 
-.container{
+.form-container{
 	padding:50px;
-	background-color: #f3e9f2;
+	background-color: #fff;
 	text-align: center;
 	height: 530px;
 	display: block;
 }
 			
+
+	.departure-arrival-stopover-container{
+
+		padding: 20px;
+		width: 50%;
+		background-color:#ededed;
+		display: inline-block;
+		height: 250px;
+		position: relative;
+		text-align: center;
+		float: left;
+
+	}
+		.form-group{
+			display: block;
+		}
