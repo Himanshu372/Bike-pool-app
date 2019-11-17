@@ -16,9 +16,36 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/bike_app/offer_ride.css">
     {% load static %}
 </head>
 <body>
+
+
+<!--Header-->
+    <header class="page-width">
+        <div class="clearfix">
+            <em class="name">
+                <a href="/">POOL YOUR BIKE</a>
+            </em>
+            <nav>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/find_ride">Find Bike</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/offer_ride">Offer Ride</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#">signup</a>
+                    </li> -->
+                </ul>
+            </nav>
+        </div>      
+    </header>
+
+
+
 <style>
     #map {
         height: calc(100vh - 60px);
@@ -29,67 +56,73 @@
 
 </style>
 
-<div class="container">
-
+<div class="form-container">
     <form class="form-horizontal" action="http://127.0.0.1:8000/offer_ride/" method="POST">
         {% csrf_token %}
-
-        <div class="form-group">
-            <label class="control-label col-sm-2">Departure Location</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="id_pickup" placeholder="Enter starting location"
-                       name="pickup">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-2">Arrival Location</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="id_dropoff" placeholder="Enter ending location"
-                       name="dropoff">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="control-label col-sm-2">StopOvers:</label>
-            <div class="col-sm-6">
-                <div class="col-sm-6" id="dynamicInput">
-                    Entry 1<br><input type="text" name="stopover_0">
-                </div>
-                <div>
-                    <input type="button" value="Add another text input" onClick="addInput('dynamicInput');">
+        <div class="departure-arrival-stopover-container    clearfix">
+            <div class="form-group">
+                <label class="control-label col-sm-2">Departure Location</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="id_pickup" placeholder="Enter starting location"
+                           name="pickup">
                 </div>
             </div>
-        </div>
-
-        <div class="form-group has-feedback">
-            <label class="control-label col-sm-2">Departure Date & Time</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" id="datetimepicker1" name="datetimepicker"/>
-{#                 <div class="input-group-addon">#}
-{#                    <span class="glyphicon glyphicon-calendar"></span>#}
-                    <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
-{#                 </div>#}
-
+            <div class="form-group">
+                <label class="control-label col-sm-2">Arrival Location</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" id="id_dropoff" placeholder="Enter ending location"
+                           name="dropoff">
+                </div>
             </div>
-        </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-2">StopOvers:</label>
+                <div class="col-sm-6">
+                    <div class="col-sm-6" id="dynamicInput">
+                        <input type="text" name="stopover_0" placeholder="Enter stopover location" class="form-control">
+                    </div>
 
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <div class="checkbox">
-                    <label><input type="checkbox" name="remember">Round trip</label>
+                    <!--Add Stopover button-->
+                    <div>
+                        <input type="button" value="Add stopover" onClick="addInput('dynamicInput');" id="stopover-button" style="">
+                    </div>
+
+
                 </div>
             </div>
         </div>
 
+        <div class="date-time-submit-container clearfix">
+            <div class="form-group has-feedback" id="date-and-time">
+                <div class="date-time-header data-block">
+                    <h4 style="display: inline; ">Date and time</h4>
+                    <label style="float: right;"><input type="checkbox" name="remember" id="checkbox" onchange="addDateandTime('date-and-time');"/>Round trip</label>
+                </div>
+                <label style="text-align: left; display: block; padding-left: 15px">Departure Date & Time
+                </label>
+                <div class="col-sm-6 clearfix">
+                    <input type="text" class="form-control" id="datetimepicker1" name="datetimepicker"/>
+                        <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+                </div>
+            </div>
 
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-default">Submit</button>
+            <!-- <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <div class="checkbox">
+                        <label><input type="checkbox" name="remember">Round trip</label>
+                    </div>
+                </div>
+            </div> -->
+
+
+            <div class="form-group-submit">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-default" id="sumbit-button">Submit</button>
+                </div>
             </div>
         </div>
-
-    </form>
+    </form> 
 </div>
 <div id="map"></div>
 <div id="infowindow-content">
@@ -97,6 +130,8 @@
     <span id="place-name" class="title"></span><br>
     <span id="place-address"></span>
 </div>
+
+
 <script>
     function initMap() {
         var input = document.getElementById('id_pickup');
@@ -109,16 +144,48 @@
 
 
     var counter = 1;
-    {#var limit = 4;#}
+    var limit = 4;
 
     function addInput(divName) {
 
         var newdiv = document.createElement('div');
-        newdiv.innerHTML = "Entry " + (counter + 1) + " <br><input type='text' name='stopover_" + counter + "'>";
+        newdiv.innerHTML = "<input type='text' name='stopover_" + counter + "' placeholder='Enter stopver location' class='form-control'>";
+        // if counter <= limit {
+        //     document.getElementById(divName).appendChild(newdiv);
+        //     counter++;
+        // };
         document.getElementById(divName).appendChild(newdiv);
-        counter++;
+        console.log('Function executed');
+        
 
     }
+
+    function addDateandTime(divName){
+        var addHTMLstring = '<label style="text-align: left; display: block; padding-left: 15px">departure-arrival-stopover-container Date & Time</label><div class="col-sm-6"><input type="text" class="form-control" id="datetimepicker1" name="datetimepicker"/><i class="glyphicon glyphicon-calendar form-control-feedback"></i></div>';
+        document.getElementById(divName).insertAdjacentHTML('beforeend', addHTMLstring);
+        console.log('Arrival date & time panel added');
+
+    }
+
+
+$('#stopover-button').click(function(){
+        $('.departure-arrival-stopover-container').css({'height' : '+=25px'});
+        console.log('Height is increased');
+    });
+
+$('#checkbox').click(function(){
+        $('.date-time-submit-container').css({'height' : '+=100px'});
+        $('.form-group-submit').css({'top' : '+=40px'});
+        console.log('Height is increased and padding is added');
+    });
+
+
+// $('#checkbox').click(addDateandTime('form-group has-feedback'){
+
+
+// });
+
+    
 </script>
 
 <script>
@@ -130,7 +197,6 @@
 
 </body>
 </html>
-
 
 
 
