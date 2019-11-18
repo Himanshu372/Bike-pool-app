@@ -1,0 +1,132 @@
+body, *, *:after, *:before{
+	box-sizing: border-box;
+}
+
+html, body {
+
+	font-family: "Helvetica Neue", Helvetica, sans-serif;
+	font-size: 16px;
+	color: #474747;
+}
+
+
+h1, h2, h3, h4, h5, h6, .title{
+	font-family: 'Economica', sans-serif;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin: 0 0 1em;
+}
+
+
+a {
+	text-decoration: none;
+}
+
+.clearfix:before, .clearfix:after{
+	content: " ";
+	display: table;
+
+}
+.clearfix:after{
+	clear: both;
+}
+
+
+.fixed-width{
+	width: 940px;
+	margin: 0 auto;
+}
+
+
+.data-block{
+
+	margin-bottom: 3rem;
+}
+
+/* Header */
+
+
+.page-width{
+ 	border-bottom: .5px solid #ebebeb;
+
+}
+
+	.page-width > div {
+
+		position: relative;
+	}
+
+		.page-width div .name{
+					font-family: "Helvetica Neue";
+					font-size: 1.6em;
+					font-style: normal;
+					font-weight: bold;
+					position: absolute;
+					bottom: 0;
+
+				}
+
+		.page-width nav {
+
+			float: right;
+
+		}
+
+		.page-width nav li {
+				color: #bfbfbf;
+				float: left;
+				margin-right: 3rem;
+				padding-top: .5rem;
+				text-transform: uppercase;
+
+			}
+
+			.page-width nav li a{
+				text-decoration: none;
+			}
+
+
+/* container */
+.form-container{
+	padding:50px;
+	background-color: #fff;
+	text-align: center;
+	height: 530px;
+	display: block;
+
+
+}
+
+		.pickup-dropoff-container{
+
+		padding: 20px;
+		width: 50%;
+		background-color:#ededed;
+		display: inline-block;
+		height: 150px;
+		position: relative;
+		text-align: left;
+
+	}
+
+		.date-time-submit-container{
+			padding: 20px;
+			width: 50%;
+			background-color:#ededed;
+			display: inline-block;
+			height: 200px;
+			text-align: left;
+
+
+		}
+
+
+		.date-time-header{
+			background-color: #fff;
+			float: top;
+			margin-bottom: 15px;
+		}
+
+		.form-group{
+			display: block;
+		}

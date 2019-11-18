@@ -75,20 +75,30 @@ class offerRide(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         # try:
         data = request.POST
-        pickup = data['pickup']
-        dropoff = data['dropoff']
+        depart = data['depart']
+        arrival = data['arrival']
 
         # Should add a validation check here
-        pickup_lat_long = get_location(pickup)
-        dropoff_lat_long = get_location(dropoff)
-        date_time = data['datetimepicker']
-        date_time_field = datetime.strftime(datetime.strptime(date_time, '%m/%d/%Y %H:%M %p'),'%Y-%m-%d %H:%M:%S')
+        depart_lat_long = get_location(depart)
+        arrival_lat_long = get_location(arrival)
+        if len(data['datetimepicker']) > 1:
+            depart_date_time = data['datetimepicker'][0]
+            arrival_date_time = data['datetimepicker'][1]
+            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'), '%Y-%m-%d %H:%M:%S')
+            arrival_date_time_field = datetime.strftime(datetime.strptime(arrival_date_time, '%m/%d/%Y %H:%M %p'),
+                                                       '%Y-%m-%d %H:%M:%S')
+        else:
+            depart_date_time = data['datetimepicker'][0]
+            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'), '%Y-%m-%d %H:%M:%S')
+            arrival_date_time_field = None
+
+
         stopover_list = []
         for i in range(0, len(data) - 4):
             stopover_list.append(data['stopover_' + str(i)])
         stopover_lat_long_list = [str(get_location(k)) for k in stopover_list]
-        rideData_obj = rideData(user_id = 101, pickup = str(pickup_lat_long), dropoff = str(dropoff_lat_long), stopovers = ''.join(stopover_lat_long_list), depart_time = date_time_field)
-        if self.queryset.filter(user_id = 101, pickup = str(pickup), depart_time = date_time_field).exists():
+        rideData_obj = rideData(user_id = 101, pickup = str(depart_lat_long), dropoff = str(arrival_lat_long), stopovers = ''.join(stopover_lat_long_list), depart_time = depart_date_time_field, return_time = arrival_date_time_field)
+        if self.queryset.filter(user_id = 101, pickup = str(depart), depart_time = depart_date_time_field).exists():
             pass
         else:
             rideData_obj.save()

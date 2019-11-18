@@ -64,14 +64,14 @@
                 <label class="control-label col-sm-2">Departure Location</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="id_pickup" placeholder="Enter starting location"
-                           name="pickup">
+                           name="depart">
                 </div>
             </div>
             <div class="form-group">
                 <label class="control-label col-sm-2">Arrival Location</label>
                 <div class="col-sm-6">
                     <input type="text" class="form-control" id="id_dropoff" placeholder="Enter ending location"
-                           name="dropoff">
+                           name="arrival">
                 </div>
             </div>
 
@@ -99,12 +99,19 @@
                     <h4 style="display: inline; ">Date and time</h4>
                     <label style="float: right;"><input type="checkbox" name="remember" id="checkbox" onclick="isChecked();" />Round trip</label>
                 </div>
-                <label style="text-align: left; display: block; padding-left: 15px">Departure Date & Time
+                <label style="display: block; padding-left: 15px" class="departure-date-time clearfix">Departure Date & Time
                 </label>
                 <div class="col-sm-6 clearfix">
-                    <input type="text" class="form-control" id="datetimepicker1" name="datetimepicker"/>
+                    <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker" style="float: left;" />
                         <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
                 </div>
+                <!-- <label style="display: block; padding-left: 15px" class="arrival-date-time clearfix">Arrival Date & Time
+                </label>
+                    <div class="col-sm-6 clearfix">
+                        <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker" style="float: left;" />
+                            <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+                    </div> -->
+
             </div>  
 
             <!-- <div class="form-group">
@@ -160,7 +167,7 @@
 
 
     function addDateandTime(divName){
-        var addHTMLstring = '<label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6-arrival-date-and-time"><input type="text" class="form-control" name="datetimepicker"/><i class="glyphicon glyphicon-calendar form-control-feedback"></i></div>';
+        var addHTMLstring = '<label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6-arrival-date-and-time" id="arrival-date-time-div"><input type="text" class="form-control" name="datetimepicker"/><i class="glyphicon glyphicon-calendar form-control-feedback"></i></div>';
         document.getElementById(divName).insertAdjacentHTML('beforeend', addHTMLstring);
         console.log('Arrival date & time panel added');
 
@@ -176,7 +183,7 @@
         {
             var label = document.getElementById('arrival-date-time-label');
             document.getElementById('date-and-time').removeChild(label);
-            var div = document.getElementById('col-sm-6-arrival-date-and-time');
+            var div = document.getElementById('arrival-date-time-div');
             document.getElementById('date-and-time').removeChild(div);
 
 
