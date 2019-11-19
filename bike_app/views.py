@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from bike_app.models import rideData, user
-from bike_app.serializers import rideDataSerializer
+from bike_app.serializers import rideDataSerializer, findRideResponseSerializer
 from rest_framework import viewsets
 from rest_framework.response import Response
 from bike_app.forms import findRideform, userLogin, userSignup
@@ -75,21 +75,33 @@ class offerRide(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         # try:
         data = request.POST
-        pickup = data['pickup']
-        dropoff = data['dropoff']
-
+        depart = data['depart']
+        arrival = data['arrival']
+        is_return =  True if data['is_return'] == 'on' else False
         # Should add a validation check here
-        pickup_lat_long = get_location(pickup)
-        dropoff_lat_long = get_location(dropoff)
-        date_time = data['datetimepicker']
-        date_time_field = datetime.strftime(datetime.strptime(date_time, '%m/%d/%Y %H:%M %p'),'%Y-%m-%d %H:%M:%S')
+        depart_lat_long = get_location(depart)
+        arrival_lat_long = get_location(arrival)
+
+
+        if is_return:
+            depart_date_time = data['datetimepicker-departure']
+            arrival_date_time = data['datetimepicker-arrival']
+            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'), '%Y-%m-%d %H:%M:%S')
+            arrival_date_time_field = datetime.strftime(datetime.strptime(arrival_date_time, '%m/%d/%Y %H:%M %p'),
+                                                       '%Y-%m-%d %H:%M:%S')
+        else:
+            depart_date_time = data['datetimepicker-departure']
+            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'), '%Y-%m-%d %H:%M:%S')
+            arrival_date_time_field = None
+
+
         stopover_list = []
-        for i in range(0, len(data) - 4):
+        for i in range(0, len(data) - 6):
             stopover_list.append(data['stopover_' + str(i)])
         stopover_lat_long_list = [str(get_location(k)) for k in stopover_list]
-        rideData_obj = rideData(user_id = 101, pickup = str(pickup_lat_long), dropoff = str(dropoff_lat_long), stopovers = ''.join(stopover_lat_long_list), depart_time = date_time_field)
-        if self.queryset.filter(user_id = 101, pickup = str(pickup), depart_time = date_time_field).exists():
-            pass
+        rideData_obj = rideData(user_id = 101, pickup = str(depart_lat_long), dropoff = str(arrival_lat_long), stopovers = ''.join(stopover_lat_long_list), depart_time = depart_date_time_field, return_time = arrival_date_time_field, is_return = is_return)
+        if self.queryset.filter(user_id = 101, pickup = str(depart_lat_long), depart_time = depart_date_time_field).exists():
+            return HttpResponse('A similar ride already exists')
         else:
             rideData_obj.save()
             return HttpResponse('Success')
@@ -103,16 +115,6 @@ class offerRide(viewsets.ModelViewSet):
 
 
 
-# def findRide(request):
-#     form = findRideform()
-#     args = {'form' : form}
-#     if request.method == 'GET':
-#         return render(request, 'bike_app/find_ride.html',args)
-#
-#     elif request.method == 'POST':
-#         pickup = request.POST['pickup']
-#         geolocation = get_location(pickup)
-#         return HttpResponse('Success')
 
 
 class findRide(viewsets.ModelViewSet):
@@ -146,7 +148,9 @@ class findRide(viewsets.ModelViewSet):
             respone_obj = findRideResponse(user_id = each_ride.user_id, distance = dist, depart_time = datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d'), fare = round(50 + 12 * dist))
             results.append(respone_obj)
         results = sorted(results, key = lambda x : x.distance, reverse = True)
-        results = serializers.serialize('json', results)
+        serializer = findRideResponseSerializer()
+
+        results = serializer.serialize(results)
         return HttpResponse(results)
 
 

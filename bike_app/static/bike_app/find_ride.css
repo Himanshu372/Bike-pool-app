@@ -86,9 +86,7 @@ a {
 			}
 
 
-
 /* container */
-
 .form-container{
 	padding:50px;
 	background-color: #fff;
@@ -98,32 +96,28 @@ a {
 
 
 }
-			
 
-	.departure-arrival-stopover-container{
+		.pickup-dropoff-container{
 
 		padding: 20px;
 		width: 50%;
 		background-color:#ededed;
 		display: inline-block;
-		height: 250px;
+		height: 150px;
 		position: relative;
 		text-align: left;
 
 	}
 
-	.date-time-submit-container{
-		padding: 20px;
-		width: 50%;
-		background-color:#ededed;
-		display: inline-block;
-		height: 200px;
-		text-align: left;
+		.date-time-submit-container{
+			padding: 20px;
+			width: 50%;
+			background-color:#ededed;
+			display: inline-block;
+			height: 200px;
+			text-align: left;
 
 
-	}
-		.form-group{
-			display: block;
 		}
 
 
@@ -131,4 +125,8 @@ a {
 			background-color: #fff;
 			float: top;
 			margin-bottom: 15px;
+		}
+
+		.form-group{
+			display: block;
 		}

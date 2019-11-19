@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 {#{% extends 'bike_app/index.html' %}#}
-{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Find Ride</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=**&libraries=places&callback=initMap"async defer></script>
-
-
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRno82ql3ddF-YqQfknHSBNFmAb0KwaJg&libraries=places&callback=initMap"async defer></script>
+    <link rel="stylesheet" type="text/css" href="../static/bike_app/find_ride.css">
+    {% load static %}
     <style>
         #map {
             height: calc(100vh - 60px);
@@ -20,23 +20,82 @@
     </style>
 </head>
 <body>
-<title>Find a ride</title>
-<form action="/find_ride/" method="post">
-    {% csrf_token %}
-    {% load bootstrap4 %}
-    {% bootstrap_css %}
-    {% bootstrap_javascript jquery='full' %}
-    {{ form }}
-    {{ form.media }}{# Adds date-picker required JS and CSS #}
-    <input type="submit" value="Submit" id="submitbutton">
-</form>
-</div>
-<div id="map"></div>
-<div id="infowindow-content">
-    <img src="" width="16" height="16" id="place-icon">
-    <span id="place-name" class="title"></span><br>
-    <span id="place-address"></span>
-</div>
+<!--Header-->
+    <header class="page-width">
+        <div class="clearfix">
+            <em class="name">
+                <a href="/">POOL YOUR BIKE</a>
+            </em>
+            <nav>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/find_ride">Find Bike</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/offer_ride">Offer Ride</a>
+                    </li>
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="#">signup</a>
+                    </li> -->
+                </ul>
+            </nav>
+        </div>      
+    </header>
+
+
+<!--Find Ride Form--> 
+    <div class="form-container">
+        <form class="form-horizontal" action="/find_ride/" method="POST">
+            <div class="pickup-dropoff-container clearfix">
+                <!-- {% csrf_token %}
+                {% load bootstrap4 %}
+                {% bootstrap_css %}
+                {% bootstrap_javascript jquery='full' %}
+                {{ form }}
+                {{ form.media }}{# Adds date-picker required JS and CSS #} -->
+
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        {{ form.pickup }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        {{ form.dropoff }}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="date-time-submit-container clearfix">
+                <div class="form-group has-feedback" id="date-and-time">
+                    <div class="date-time-header data-block">
+                        <h4 style="display: inline; ">Date and time</h4>
+                    </div>
+                    {% load bootstrap4 %}
+                    {% bootstrap_css %}
+                    {% bootstrap_javascript jquery='full' %}
+                    {{ form.date }}
+                    {{ form.time }}
+                    {{ form.media }}{# Adds date-picker required JS and CSS #}
+
+            
+
+                 <div class="form-group-submit">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-default" id="sumbit-button">Search</button>
+                    </div>
+                </div>
+        </form>
+        </div>
+        <div id="map"></div>
+        <div id="infowindow-content">
+            <img src="" width="16" height="16" id="place-icon">
+            <span id="place-name" class="title"></span><br>
+            <span id="place-address"></span>
+        </div>
+    </div>
+</body>
 
 <script>
 
@@ -76,35 +135,8 @@
             success: function(data) {
 
                 console.log('Success');
-
-                {#new Chart(document.getElementById("line-chart"), {#}
-                {#    type: data['type'],#}
-                {#    data: {#}
-                {#        labels: data['data']['labels'],#}
-                {#        datasets: [{#}
-                {#            data: data['data']['datasets'][0]['data'],#}
-                {#            label: data['data']['datasets'][0]['label'],#}
-                {#            borderColor: data['data']['datasets'][0]['borderColor'],#}
-                {#            fill: false#}
-                {#        }]#}
-                {#    },#}
-                {#    options: {#}
-                {#        title: {#}
-                {#            display: true,#}
-                {#            text: 'Exchange Rate Forecast'#}
-                {#        }#}
-                {#    }#}
-                {#});#}
-
-
-
-
-
             }
-        });
-    });
-
 </script>
-</body>
+
 </html>
 
