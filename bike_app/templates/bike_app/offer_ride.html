@@ -97,13 +97,26 @@
             <div class="form-group has-feedback" id="date-and-time">
                 <div class="date-time-header data-block">
                     <h4 style="display: inline; ">Date and time</h4>
-                    <label style="float: right;"><input type="checkbox" name="remember" id="checkbox" onclick="isChecked();" />Round trip</label>
+                    <label style="float: right;"><input type="checkbox" name="is_return" id="checkbox" onclick="isChecked();" />Round trip</label>
                 </div>
-                <label style="display: block; padding-left: 15px" class="departure-date-time clearfix">Departure Date & Time
+                <label style="display: block; padding-left: 15px;" class="departure-date-time clearfix">Departure Date & Time
                 </label>
                 <div class="col-sm-6 clearfix">
-                    <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker" style="float: left;" />
-                        <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+                    <!-- <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker1" style="float: left;" />
+                        <i class="glyphicon glyphicon-calendar form-control-feedback"></i> -->
+
+
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" name="datetimepicker-departure" />
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                        </div>
+                    </div>
+
+
+
                 </div>
                 <!-- <label style="display: block; padding-left: 15px" class="arrival-date-time clearfix">Arrival Date & Time
                 </label>
@@ -167,8 +180,15 @@
 
 
     function addDateandTime(divName){
-        var addHTMLstring = '<label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6-arrival-date-and-time" id="arrival-date-time-div"><input type="text" class="form-control" name="datetimepicker"/><i class="glyphicon glyphicon-calendar form-control-feedback"></i></div>';
+        var addHTMLstring = '<label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6 clearfix"><div class="form-group"><div class="input-group date" id="datetimepicker2"><input type="text" class="form-control" name="datetimepicker-arrival"/><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>';
         document.getElementById(divName).insertAdjacentHTML('beforeend', addHTMLstring);
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = '../static/bike_app/js_func.js'
+        $('head').append(script);
+
+
         console.log('Arrival date & time panel added');
 
     }
@@ -217,20 +237,16 @@ $('#checkbox').change(function(){
     });
 
 
+$(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
+
 // $('#checkbox').click(addDateandTime('form-group has-feedback'){
 //         console.log('Arrival Date and time panel added');
 //     });
 
     
 </script>
-
-<script>
-    $(function () {
-        $('#datetimepicker1').datetimepicker();
-    });
-</script>
-
-
 </body>
 </html>
 
