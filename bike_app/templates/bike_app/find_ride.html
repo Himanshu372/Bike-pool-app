@@ -5,10 +5,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Find Ride</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRno82ql3ddF-YqQfknHSBNFmAb0KwaJg&libraries=places&callback=initMap"async defer></script>
-    <link rel="stylesheet" type="text/css" href="../static/bike_app/find_ride.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
+<!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRno82ql3ddF-YqQfknHSBNFmAb0KwaJg&libraries=places&callback=initMap"async defer></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../static/bike_app/css/find_ride.css">
     {% load static %}
     <style>
         #map {
@@ -47,13 +50,6 @@
     <div class="form-container">
         <form class="form-horizontal" action="/find_ride/" method="POST">
             <div class="pickup-dropoff-container clearfix">
-                <!-- {% csrf_token %}
-                {% load bootstrap4 %}
-                {% bootstrap_css %}
-                {% bootstrap_javascript jquery='full' %}
-                {{ form }}
-                {{ form.media }}{# Adds date-picker required JS and CSS #} -->
-
                 <div class="form-group">
                     <div class="col-sm-6">
                         {{ form.pickup }}
@@ -66,28 +62,71 @@
                 </div>
             </div>
 
+<!--            <div class="date-time-submit-container clearfix">-->
+<!--                <div class="form-group has-feedback" id="date-and-time">-->
+<!--                    <div class="date-time-header data-block">-->
+<!--                        <h4 style="display: inline; ">Date and time</h4>-->
+<!--                    </div>-->
+<!--                    {% load bootstrap4 %}-->
+<!--                    {% bootstrap_css %}-->
+<!--                    {% bootstrap_javascript jquery='full' %}-->
+<!--                    {{ form.date }}-->
+<!--                    {{ form.time }}-->
+<!--                    {{ form.media }}{# Adds date-picker required JS and CSS #}-->
+<!--                </div>-->
 
+<!--                 <div class="form-group-submit">-->
+<!--                    <div class="col-sm-offset-2 col-sm-10">-->
+<!--                        <button type="submit" class="btn btn-default" id="sumbit-button">Search</button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="date-time-submit-container clearfix">
                 <div class="form-group has-feedback" id="date-and-time">
                     <div class="date-time-header data-block">
                         <h4 style="display: inline; ">Date and time</h4>
                     </div>
-                    {% load bootstrap4 %}
-                    {% bootstrap_css %}
-                    {% bootstrap_javascript jquery='full' %}
-                    {{ form.date }}
-                    {{ form.time }}
-                    {{ form.media }}{# Adds date-picker required JS and CSS #}
+                    <label style="display: block; padding-left: 15px;" class="departure-date-time clearfix"></label>
+                    <div class="col-sm-6 clearfix">
+                        <!-- <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker1" style="float: left;" />
+                            <i class="glyphicon glyphicon-calendar form-control-feedback"></i> -->
 
-            
 
-                 <div class="form-group-submit">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" name="datetimepicker-departure"/>
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <label style="display: block; padding-left: 15px" class="arrival-date-time clearfix">Arrival Date & Time
+                    </label>
+                        <div class="col-sm-6 clearfix">
+                            <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker" style="float: left;" />
+                                <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
+                        </div> -->
+
+                </div>
+
+                <!-- <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="btn btn-default" id="sumbit-button">Search</button>
+                        <div class="checkbox">
+                            <label><input type="checkbox" name="remember">Round trip</label>
+                        </div>
+                    </div>
+                </div> -->
+
+
+                <div class="form-group-submit">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="search-button-class" id="submit-button">Search</button>
                     </div>
                 </div>
+            </div>
         </form>
-        </div>
+    </div>
         <div id="map"></div>
         <div id="infowindow-content">
             <img src="" width="16" height="16" id="place-icon">
@@ -109,9 +148,6 @@
 
     };
 </script>
-
-
-
 <script>
     $("#submitbutton").click(function() {
 
@@ -136,6 +172,14 @@
 
                 console.log('Success');
             }
+         })
+    });
+</script>
+
+<script>
+    $(function () {
+        $('#datetimepicker1').datetimepicker();
+    });
 </script>
 
 </html>

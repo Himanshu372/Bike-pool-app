@@ -4,9 +4,6 @@
     <title>Offer Ride</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzdxHAyALpK_IyWNqoCIryUYpoeTiDgdo&libraries=places&callback=initMap"
             async defer></script>
@@ -16,7 +13,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="../static/bike_app/offer_ride.css">
+    <link rel="stylesheet" type="text/css" href="../static/bike_app/css/offer_ride.css">
     {% load static %}
 </head>
 <body>
@@ -239,6 +236,7 @@ $('#checkbox').change(function(){
 
 $(function () {
         $('#datetimepicker1').datetimepicker();
+        console.log('Datetimepicker function executed');
     });
 
 // $('#checkbox').click(addDateandTime('form-group has-feedback'){
