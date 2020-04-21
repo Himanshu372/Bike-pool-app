@@ -117,9 +117,8 @@ a {
 		width: 50%;
 		background-color:#ededed;
 		display: inline-block;
-		height: 200px;
-		text-align: left;
-
+		height: 300px;
+		text-align: center;
 
 	}
 		.form-group{
@@ -131,4 +130,27 @@ a {
 			background-color: #fff;
 			float: top;
 			margin-bottom: 15px;
+			text-align: left;
+		}
+
+        .departure-date-time{
+            text-align: left;
+            margin-top: 20px;
+        }
+
+		.control-label{
+            white-space: nowrap;
+		}
+
+		#id_pickup{
+		    margin-left: 40px;
+		}
+
+		#id_dropoff{
+		    margin-left: 40px;
+		}
+
+		.submit-button-class{
+            margin-top: 120px;
+            margin-right: 150px;
 		}

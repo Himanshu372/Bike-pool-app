@@ -112,11 +112,6 @@ class offerRide(viewsets.ModelViewSet):
         return render(request, self.template_name)
 
 
-
-
-
-
-
 class findRide(viewsets.ModelViewSet):
     queryset = rideData.objects.all()
     template_name = 'bike_app/find_ride.html'
