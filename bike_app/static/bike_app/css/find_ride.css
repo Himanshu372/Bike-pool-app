@@ -111,7 +111,7 @@ a {
 			background-color:#ededed;
 			display: inline-block;
 			height: 200px;
-			text-align: left;
+			text-align: center;
 			position: relative;
 		}
 
@@ -120,12 +120,20 @@ a {
 			background-color: #fff;
 			float: top;
 			margin-bottom: 15px;
+			text-align: left;
 		}
 
         .form-group{
             display: block;
+            margin-top: 15px;
         }
 
-            .search-button-class{
-                position: relative;
-            }
+                .search-button-class{
+                    position: relative;
+                    margin-top: 40px;
+                    margin-right: 150px;
+                }
+
+                .dropoff-textbox{
+                    margin-top: 20px;
+                }

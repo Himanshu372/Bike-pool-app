@@ -28,7 +28,7 @@
             <nav>
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="/find_ride">Find Bike</a>
+                        <a class="nav-link" href="/find_ride">Find Ride</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/offer_ride">Offer Ride</a>
@@ -56,7 +56,7 @@
 <div class="form-container">
     <form class="form-horizontal" action="http://127.0.0.1:8000/offer_ride/" method="POST">
         {% csrf_token %}
-        <div class="departure-arrival-stopover-container    clearfix">
+        <div class="departure-arrival-stopover-container clearfix">
             <div class="form-group">
                 <label class="control-label col-sm-2">Departure Location</label>
                 <div class="col-sm-6">
@@ -93,16 +93,12 @@
         <div class="date-time-submit-container clearfix">
             <div class="form-group has-feedback" id="date-and-time">
                 <div class="date-time-header data-block">
-                    <h4 style="display: inline; ">Date and time</h4>
+                    <h4 style="display: inline;">Date and time</h4>
                     <label style="float: right;"><input type="checkbox" name="is_return" id="checkbox" onclick="isChecked();" />Round trip</label>
                 </div>
                 <label style="display: block; padding-left: 15px;" class="departure-date-time clearfix">Departure Date & Time
                 </label>
                 <div class="col-sm-6 clearfix">
-                    <!-- <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker1" style="float: left;" />
-                        <i class="glyphicon glyphicon-calendar form-control-feedback"></i> -->
-
-
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker1'>
                             <input type='text' class="form-control" name="datetimepicker-departure" />
@@ -111,31 +107,11 @@
                                 </span>
                         </div>
                     </div>
-
-
-
                 </div>
-                <!-- <label style="display: block; padding-left: 15px" class="arrival-date-time clearfix">Arrival Date & Time
-                </label>
-                    <div class="col-sm-6 clearfix">
-                        <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker" style="float: left;" />
-                            <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
-                    </div> -->
-
-            </div>  
-
-            <!-- <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <div class="checkbox">
-                        <label><input type="checkbox" name="remember">Round trip</label>
+                <div class="form-group-submit">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="submit-button-class" id="sumbit-button">Submit</button>
                     </div>
-                </div>
-            </div> -->
-
-
-            <div class="form-group-submit">
-                <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default" id="sumbit-button">Submit</button>
                 </div>
             </div>
         </div>

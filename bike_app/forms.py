@@ -4,9 +4,9 @@ from bike_app.models import user
 
 class findRideform(forms.Form):
     pickup = forms.CharField(max_length=1000, label='Pickup point',
-                             widget=forms.TextInput(attrs={'placeholder': 'Pickup'}))
+                             widget=forms.TextInput(attrs={'placeholder': 'Pickup', 'class': 'pickup-textbox'}))
     dropoff = forms.CharField(max_length=1000, label='Dropping point',
-                              widget=forms.TextInput(attrs={'placeholder': 'Dropoff'}))
+                              widget=forms.TextInput(attrs={'placeholder': 'Dropoff', 'class': 'dropoff-textbox'}))
     # date = forms.CharField(max_length = 10, label = 'Date', widget = forms.TextInput(attrs={'placeholder': 'yyyy-mm-dd'}))
     date = forms.DateField(widget=DatePickerInput(format='YYYY-MM-DD'))
     time = forms.DateField(widget=TimePickerInput())

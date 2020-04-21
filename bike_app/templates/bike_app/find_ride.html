@@ -32,7 +32,7 @@
             <nav>
                 <ul>
                     <li class="nav-item">
-                        <a class="nav-link" href="/find_ride">Find Bike</a>
+                        <a class="nav-link" href="/find_ride">Find Ride</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/offer_ride">Offer Ride</a>
@@ -62,53 +62,32 @@
                 </div>
             </div>
 
-<!--            <div class="date-time-submit-container clearfix">-->
-<!--                <div class="form-group has-feedback" id="date-and-time">-->
-<!--                    <div class="date-time-header data-block">-->
-<!--                        <h4 style="display: inline; ">Date and time</h4>-->
-<!--                    </div>-->
-<!--                    {% load bootstrap4 %}-->
-<!--                    {% bootstrap_css %}-->
-<!--                    {% bootstrap_javascript jquery='full' %}-->
-<!--                    {{ form.date }}-->
-<!--                    {{ form.time }}-->
-<!--                    {{ form.media }}{# Adds date-picker required JS and CSS #}-->
-<!--                </div>-->
-
-<!--                 <div class="form-group-submit">-->
-<!--                    <div class="col-sm-offset-2 col-sm-10">-->
-<!--                        <button type="submit" class="btn btn-default" id="sumbit-button">Search</button>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="date-time-submit-container clearfix">
-                <div class="form-group has-feedback" id="date-and-time">
-                    <div class="date-time-header data-block">
-                        <h4 style="display: inline; ">Date and time</h4>
-                    </div>
-                    <label style="display: block; padding-left: 15px;" class="departure-date-time clearfix"></label>
-                    <div class="col-sm-6 clearfix">
-                        <!-- <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker1" style="float: left;" />
-                            <i class="glyphicon glyphicon-calendar form-control-feedback"></i> -->
+<!--                <div class="form-group has-feedback" id="date-and-time">-->
+                <div class="date-time-header data-block">
+                    <h4 style="display: inline; ">Date and time</h4>
+                </div>
+                <label style="display: block; padding-left: 15px;" class="departure-date-time clearfix"></label>
+                <div class="col-sm-6 clearfix">
+                    <!-- <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker1" style="float: left;" />
+                        <i class="glyphicon glyphicon-calendar form-control-feedback"></i> -->
 
 
-                        <div class="form-group">
-                            <div class='input-group date' id='datetimepicker1'>
-                                <input type='text' class="form-control" name="datetimepicker-departure"/>
-                                    <span class="input-group-addon">
-                                        <span class="glyphicon glyphicon-calendar"></span>
-                                    </span>
-                            </div>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker1'>
+                            <input type='text' class="form-control" name="datetimepicker-departure"/>
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
                         </div>
                     </div>
-                    <!-- <label style="display: block; padding-left: 15px" class="arrival-date-time clearfix">Arrival Date & Time
-                    </label>
-                        <div class="col-sm-6 clearfix">
-                            <input type="text" class="form-control" id="datetimepicker1 clearfix" name="datetimepicker" style="float: left;" />
-                                <i class="glyphicon glyphicon-calendar form-control-feedback"></i>
-                        </div> -->
-
                 </div>
+                <div class="form-group-submit">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="search-button-class" id="submit-button">Search</button>
+                    </div>
+                </div>
+<!--                </div>-->
 
                 <!-- <div class="form-group">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -117,13 +96,6 @@
                         </div>
                     </div>
                 </div> -->
-
-
-                <div class="form-group-submit">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="search-button-class" id="submit-button">Search</button>
-                    </div>
-                </div>
             </div>
         </form>
     </div>
