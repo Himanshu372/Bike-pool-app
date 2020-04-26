@@ -76,13 +76,12 @@
                 <label class="control-label col-sm-2">StopOvers:</label>
                 <div class="col-sm-6">
                     <div class="col-sm-6" id="dynamicInput">
-                        <input type="text" name="stopover_0" placeholder="Enter stopover location" class="form-control">
+                        <input type="text" name="stopover_0" id="stopover_0" placeholder="Stopover location" class="form-control stopover">
                     </div>
-
 
                     <!--Add Stopover button-->
                     <div>
-                        <input type="button" value="Add stopover" onClick="addInput('dynamicInput');" id="stopover-button" style="">
+                        <input type="button" value="Add stopover" onClick="addInput('dynamicInput');" id="stopover-button">
                     </div>
                 </div>
             </div>
@@ -108,11 +107,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group-submit">
+            </div>
+            <div class="form-group-submit">
                     <div class="col-sm-offset-2 col-sm-10">
                         <button type="submit" class="submit-button-class" id="sumbit-button">Submit</button>
                     </div>
-                </div>
             </div>
         </div>
     </form> 
@@ -142,7 +141,7 @@
     function addInput(divName) {
 
         var newdiv = document.createElement('div');
-        newdiv.innerHTML = "<input type='text' name='stopover_" + counter + "' placeholder='Enter stopver location' class='form-control'>";
+        newdiv.innerHTML = "<input type='text' name='stopover_" + counter + "' placeholder='Stopver location' class='form-control stopover'>";
         // if counter <= limit {
         //     document.getElementById(divName).appendChild(newdiv);
         //     counter++;
@@ -156,10 +155,10 @@
         var addHTMLstring = '<label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6 clearfix"><div class="form-group"><div class="input-group date" id="datetimepicker2"><input type="text" class="form-control" name="datetimepicker-arrival"/><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>';
         document.getElementById(divName).insertAdjacentHTML('beforeend', addHTMLstring);
 
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = '../static/bike_app/js_func.js'
-        $('head').append(script);
+<!--        var script = document.createElement('script');-->
+<!--        script.type = 'text/javascript';-->
+<!--        script.src = '../static/bike_app/js_func.js'-->
+<!--        $('head').append(script);-->
 
 
         console.log('Arrival date & time panel added');
@@ -174,53 +173,17 @@
         }
         else
         {
-            var label = document.getElementById('arrival-date-time-label');
-            document.getElementById('date-and-time').removeChild(label);
-            var div = document.getElementById('arrival-date-time-div');
-            document.getElementById('date-and-time').removeChild(div);
-
-
+<!--            var label = document.getElementById('arrival-date-time-label');-->
+<!--            document.getElementById('date-and-time').removeChild(label);-->
+<!--            var div = document.getElementById('arrival-date-time-div');-->
+<!--            document.getElementById('date-and-time').removeChild(div);-->
+                var date_time_class = document.getElementById('arrival-date-time-label');
+                $(label).removeClass();
         }
     }
 
-
-
-
-
-$('#stopover-button').click(function(){
-        $('.departure-arrival-stopover-container').css({'height' : '+=25px'});
-        
-        console.log('Height is increased');
-    });
-
-
-
-$('#checkbox').change(function(){
-        if(this.checked){
-            $('.date-time-submit-container').css({'height' : '+=100px'});
-            $('.form-group-submit').css({'top' : '+=40px'});
-            console.log('Height is increased and padding is added');
-        } 
-        else{
-            $('.date-time-submit-container').css({'height' : '-=100px'});
-            $('.form-group-submit').css({'top' : '-=40px'});
-            console.log('Height and padding decreased');
-
-        }   
-    });
-
-
-$(function () {
-        $('#datetimepicker1').datetimepicker();
-        console.log('Datetimepicker function executed');
-    });
-
-// $('#checkbox').click(addDateandTime('form-group has-feedback'){
-//         console.log('Arrival Date and time panel added');
-//     });
-
-    
 </script>
+<script type="text/javascript" src="../static/bike_app/js/offer_ride.js"></script>
 </body>
 </html>
 
