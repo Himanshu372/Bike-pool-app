@@ -150,7 +150,15 @@ a {
 		    margin-left: 40px;
 		}
 
+        .stopover{
+            margin-left: 25px;
+        }
+
 		.submit-button-class{
-            margin-top: 120px;
+            margin-top: 100px;
             margin-right: 150px;
+		}
+
+		#stopover-button{
+		    margin-left: 70px;
 		}
