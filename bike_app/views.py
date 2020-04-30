@@ -21,11 +21,7 @@ def home(request):
     return render(request, 'bike_app/index.html')
 
 
-# def login(request):
-#     return render(request, 'bike_app/login.html')
-
-
-class userLogin(viewsets.ModelViewSet):
+class UserLogin(viewsets.ModelViewSet):
     queryset = user.objects.all()
     template_name = 'bike_app/login.html'
     login_form = userLogin()
@@ -35,8 +31,7 @@ class userLogin(viewsets.ModelViewSet):
         args = {'form' : login_form}
         return render(request, self.template_name, args)
 
-
-class userSignup(viewsets.ModelViewSet):
+class UserSignup(viewsets.ModelViewSet):
     queryset = user.objects.all()
     template_name = 'bike_app/signup.html'
     signup_form = userSignup()
@@ -45,7 +40,6 @@ class userSignup(viewsets.ModelViewSet):
         signup_form = self.signup_form
         args = {'form': signup_form}
         return render(request, self.template_name, args)
-
 
     def create(self, request, *args, **kwargs):
         # try:
@@ -58,26 +52,24 @@ class userSignup(viewsets.ModelViewSet):
             messages.info(request, 'This email id already exists, kindly enter a different address')
             return redirect('/signup')
         else:
-            new_user = user(first_name = user_firstname, last_name = user_lastname, email = user_email, password = user_password)
+            new_user = user(first_name=user_firstname, last_name=user_lastname,
+                            email=user_email, password=user_password)
             new_user.save()
             messages.info(request, 'Thanks for signing in!')
             return redirect('')
         # except:
         #     return Response('Form data not valid')
 
-
-
-class offerRide(viewsets.ModelViewSet):
+class OfferRide(viewsets.ModelViewSet):
     queryset = rideData.objects.all()
     template_name = 'bike_app/offer_ride.html'
-
 
     def create(self, request, *args, **kwargs):
         # try:
         data = request.POST
         depart = data['depart']
         arrival = data['arrival']
-        is_return =  True if data['is_return'] == 'on' else False
+        is_return = getattr(data, 'is_return', False)
         # Should add a validation check here
         depart_lat_long = get_location(depart)
         arrival_lat_long = get_location(arrival)
@@ -86,24 +78,27 @@ class offerRide(viewsets.ModelViewSet):
         if is_return:
             depart_date_time = data['datetimepicker-departure']
             arrival_date_time = data['datetimepicker-arrival']
-            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'), '%Y-%m-%d %H:%M:%S')
+            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'),
+                                                       '%Y-%m-%d %H:%M:%S')
             arrival_date_time_field = datetime.strftime(datetime.strptime(arrival_date_time, '%m/%d/%Y %H:%M %p'),
                                                        '%Y-%m-%d %H:%M:%S')
         else:
             depart_date_time = data['datetimepicker-departure']
-            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'), '%Y-%m-%d %H:%M:%S')
+            depart_date_time_field = datetime.strftime(datetime.strptime(depart_date_time, '%m/%d/%Y %H:%M %p'),
+                                                       '%Y-%m-%d %H:%M:%S')
             arrival_date_time_field = None
-
-
         stopover_list = []
         for i in range(0, len(data) - 6):
             stopover_list.append(data['stopover_' + str(i)])
         stopover_lat_long_list = [str(get_location(k)) for k in stopover_list]
-        rideData_obj = rideData(user_id = 101, pickup = str(depart_lat_long), dropoff = str(arrival_lat_long), stopovers = ''.join(stopover_lat_long_list), depart_time = depart_date_time_field, return_time = arrival_date_time_field, is_return = is_return)
+        ride_data_obj = rideData(user_id=101, pickup=str(depart_lat_long),
+                                 dropoff=str(arrival_lat_long), stopovers=''.join(stopover_lat_long_list),
+                                 depart_time=depart_date_time_field, return_time=arrival_date_time_field,
+                                 is_return=is_return)
         if self.queryset.filter(user_id = 101, pickup = str(depart_lat_long), depart_time = depart_date_time_field).exists():
             return HttpResponse('A similar ride already exists')
         else:
-            rideData_obj.save()
+            ride_data_obj.save()
             return HttpResponse('Success')
         # except:
         #     return HttpResponse('Please check your input data')
@@ -112,7 +107,7 @@ class offerRide(viewsets.ModelViewSet):
         return render(request, self.template_name)
 
 
-class findRide(viewsets.ModelViewSet):
+class FindRide(viewsets.ModelViewSet):
     queryset = rideData.objects.all()
     template_name = 'bike_app/find_ride.html'
 
@@ -127,12 +122,13 @@ class findRide(viewsets.ModelViewSet):
         dropoff_loc = data['dropoff']
         travel_date = data['date']
         travel_time = data['time']
-        travel_date_time = datetime.strftime(datetime.strptime(travel_date + ' ' + travel_time, '%Y-%m-%d %H:%M'),'%Y-%m-%d %H:%M:%S')
+        travel_date_time = datetime.strftime(datetime.strptime(travel_date + ' ' + travel_time, '%Y-%m-%d %H:%M'),
+                                             '%Y-%m-%d %H:%M:%S')
 
         # Should include a validation check here
         pickup_lat_long = get_location(pickup_loc)
         dropoff_lat_long = get_location(dropoff_loc)
-        rides = self.queryset.filter(depart_time__date = travel_date)
+        rides = self.queryset.filter(depart_time__date=travel_date)
         results = []
         for each_ride in rides:
             dist = cal_haversine_distance(str(pickup_lat_long), each_ride.pickup)
@@ -140,7 +136,9 @@ class findRide(viewsets.ModelViewSet):
             # results[each_ride.user_id]['distance'] = dist
             # results[each_ride.user_id]['depart_time'] = datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d')
             # results[each_ride.user_id]['fare'] = round(50 + 12 * dist)
-            respone_obj = findRideResponse(user_id = each_ride.user_id, distance = dist, depart_time = datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d'), fare = round(50 + 12 * dist))
+            respone_obj = findRideResponse(user_id=each_ride.user_id, distance=dist,
+                                           depart_time=datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d'),
+                                           fare=round(50 + 12 * dist))
             results.append(respone_obj)
         results = sorted(results, key = lambda x : x.distance, reverse = True)
         serializer = findRideResponseSerializer()

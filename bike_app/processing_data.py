@@ -2,8 +2,9 @@ import requests
 import json
 import math
 import re
+from bike_app.constants import MAPQUEST_URL
 
-MAPQUEST_URL = 'http://www.mapquestapi.com/geocoding/v1/address?key=SsRGOwY10OEkejYJYB2ACoaUiNtDDoIv'
+
 
 
 

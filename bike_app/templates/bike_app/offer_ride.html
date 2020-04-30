@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/bike_app/js/offer_ride.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzdxHAyALpK_IyWNqoCIryUYpoeTiDgdo&libraries=places&callback=initMap"
             async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -81,7 +82,7 @@
 
                     <!--Add Stopover button-->
                     <div>
-                        <input type="button" value="Add stopover" onClick="addInput('dynamicInput');" id="stopover-button">
+                        <input type="button" value="Add stopover" id="stopover-button">
                     </div>
                 </div>
             </div>
@@ -93,17 +94,18 @@
             <div class="form-group has-feedback" id="date-and-time">
                 <div class="date-time-header data-block">
                     <h4 style="display: inline;">Date and time</h4>
-                    <label style="float: right;"><input type="checkbox" name="is_return" id="checkbox" onclick="isChecked();" />Round trip</label>
+                    <label style="float: right;"><input type="checkbox" name="is_return" id="checkbox"/>Round trip</label>
                 </div>
-                <label style="display: block; padding-left: 15px;" class="departure-date-time clearfix">Departure Date & Time
-                </label>
-                <div class="col-sm-6 clearfix">
-                    <div class="form-group">
-                        <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" name="datetimepicker-departure" />
-                                <span class="input-group-addon">
-                                    <span class="glyphicon glyphicon-calendar"></span>
-                                </span>
+                <div class="departure-date-time-block clearfix">
+                    <label style="display: block; padding-left: 15px;" class="departure-date-time clearfix">Departure Date & Time</label>
+                    <div class="col-sm-6 clearfix">
+                        <div class="form-group">
+                            <div class='input-group date' id='datetimepicker1'>
+                                <input type='text' class="form-control" name="datetimepicker-departure" />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -134,25 +136,8 @@
         var autocomplete_stopovers = new google.maps.places.Autocomplete(stopovers);
     };
 
-
-    var counter = 1;
-    var limit = 4;
-
-    function addInput(divName) {
-
-        var newdiv = document.createElement('div');
-        newdiv.innerHTML = "<input type='text' name='stopover_" + counter + "' placeholder='Stopver location' class='form-control stopover'>";
-        // if counter <= limit {
-        //     document.getElementById(divName).appendChild(newdiv);
-        //     counter++;
-        // };
-        document.getElementById(divName).appendChild(newdiv);
-        console.log('Function executed');
-    }
-
-
     function addDateandTime(divName){
-        var addHTMLstring = '<label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6 clearfix"><div class="form-group"><div class="input-group date" id="datetimepicker2"><input type="text" class="form-control" name="datetimepicker-arrival"/><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>';
+        var addHTMLstring = '<div class="arrival-date-time-block"><label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6 clearfix"><div class="form-group"><div class="input-group date" id="datetimepicker2"><input type="text" class="form-control" name="datetimepicker-arrival"/><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div></div>';
         document.getElementById(divName).insertAdjacentHTML('beforeend', addHTMLstring);
 
 <!--        var script = document.createElement('script');-->
@@ -165,25 +150,7 @@
 
     }
 
-
-    function isChecked(){
-        if (document.getElementById('checkbox').checked)
-        {
-            addDateandTime('date-and-time');
-        }
-        else
-        {
-<!--            var label = document.getElementById('arrival-date-time-label');-->
-<!--            document.getElementById('date-and-time').removeChild(label);-->
-<!--            var div = document.getElementById('arrival-date-time-div');-->
-<!--            document.getElementById('date-and-time').removeChild(div);-->
-                var date_time_class = document.getElementById('arrival-date-time-label');
-                $(label).removeClass();
-        }
-    }
-
 </script>
-<script type="text/javascript" src="../static/bike_app/js/offer_ride.js"></script>
 </body>
 </html>
 
