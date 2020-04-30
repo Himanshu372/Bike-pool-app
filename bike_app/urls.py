@@ -5,10 +5,10 @@ from django.conf.urls import url
 
 router = routers.DefaultRouter()
 # # router.register(r'', views.home)
-router.register(r'find_ride', views.findRide)
-router.register(r'offer_ride', views.offerRide)
-router.register(r'login', views.userLogin)
-router.register(r'signup', views.userSignup)
+router.register(r'find_ride', views.FindRide)
+router.register(r'offer_ride', views.OfferRide)
+router.register(r'login', views.UserLogin)
+router.register(r'signup', views.UserSignup)
 
 
 

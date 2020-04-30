@@ -121,44 +121,49 @@ a {
 		text-align: center;
 
 	}
+
 		.form-group{
 			display: block;
 		}
 
-
-		.date-time-header{
-			background-color: #fff;
-			float: top;
-			margin-bottom: 15px;
-			text-align: left;
-		}
-
-        .departure-date-time{
-            text-align: left;
-            margin-top: 20px;
-        }
-
-		.control-label{
-            white-space: nowrap;
-		}
-
-		#id_pickup{
-		    margin-left: 40px;
-		}
-
-		#id_dropoff{
-		    margin-left: 40px;
-		}
-
-        .stopover{
-            margin-left: 25px;
-        }
-
-		.submit-button-class{
+        .form-group-submit{
             margin-top: 100px;
-            margin-right: 150px;
 		}
 
-		#stopover-button{
-		    margin-left: 70px;
-		}
+
+		    .date-time-header{
+                background-color: #fff;
+                float: top;
+                margin-bottom: 15px;
+                text-align: left;
+            }
+
+            .departure-date-time{
+                text-align: left;
+                margin-top: 20px;
+            }
+
+            .control-label{
+                white-space: nowrap;
+            }
+
+            #id_pickup{
+                margin-left: 40px;
+            }
+
+            #id_dropoff{
+                margin-left: 40px;
+            }
+
+            .stopover{
+                margin-left: 25px;
+            }
+
+
+            #stopover-button{
+                margin-left: 40px;
+            }
+
+            .submit-button-class{
+                margin-right: 140px;
+            }
