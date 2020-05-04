@@ -1,19 +1,25 @@
-from django.shortcuts import render
-from bike_app.models import rideData, user
-from bike_app.serializers import rideDataSerializer, findRideResponseSerializer
-from rest_framework import viewsets
-from rest_framework.response import Response
-from bike_app.forms import findRideform, userLogin, userSignup
-from django.http import HttpRequest,HttpResponse
-from rest_framework.views import APIView
-from bike_app.processing_data import get_location, cal_haversine_distance
 from datetime import datetime
-from bike_app.response_classes import findRideResponse
+
+from django.shortcuts import render
 from django.core import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import redirect
 from django.contrib import messages
+from django.http import HttpRequest, HttpResponse
+
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from bike_app.models import rideData, user
+from bike_app.serializers import rideDataSerializer, findRideResponseSerializer
+from bike_app.response_classes import findRideResponse
+from bike_app.forms import findRideform, userLogin, userSignup
+from bike_app.processing_data import get_location, cal_haversine_distance
+
+
+
 
 
 
@@ -28,7 +34,7 @@ class UserLogin(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         login_form = self.login_form
-        args = {'form' : login_form}
+        args = {'form': login_form}
         return render(request, self.template_name, args)
 
 class UserSignup(viewsets.ModelViewSet):
@@ -39,7 +45,7 @@ class UserSignup(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         signup_form = self.signup_form
         args = {'form': signup_form}
-        return render(request, self.template_name, args)
+        return render(request, template_name=self.template_name, context=args)
 
     def create(self, request, *args, **kwargs):
         # try:
@@ -112,17 +118,18 @@ class OfferRide(viewsets.ModelViewSet):
 class FindRide(viewsets.ModelViewSet):
     queryset = rideData.objects.all()
     template_name = 'bike_app/find_ride.html'
+    # post_template = 'bike_app/show_rides.html'
 
     def list(self, request, *args, **kwargs):
         form = findRideform
         args = {'form': form}
-        return render(request, self.template_name, args)
+        return render(request, template_name=self.template_name, context=args)
 
     def create(self, request, *args, **kwargs):
         data = request.POST
         pickup_loc = data['pickup']
         dropoff_loc = data['dropoff']
-        travel_date_time = data['datetimepicker-departure']
+        travel_date_time = data['datetime']
         date_time_obj = datetime.strptime(travel_date_time, '%m/%d/%Y %H:%M %p')
 
         # Should include a validation check here
@@ -140,9 +147,14 @@ class FindRide(viewsets.ModelViewSet):
             results.append(respone_obj)
         results = sorted(results, key=lambda x: x.distance, reverse=True)
         serializer = findRideResponseSerializer()
-
-        results = serializer.serialize(results)
-        return HttpResponse(results)
+        if results:
+            results = serializer.serialize(results)
+            if request.accepted_renderer.format == 'html':
+                return Response(data=results, status=201, template_name=self.template_name)
+            else:
+                return Response(data=results, status=201)
+        else:
+            return Response(data=results, status=201)
 
 
 

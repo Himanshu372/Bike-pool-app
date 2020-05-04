@@ -42,7 +42,7 @@ def cal_haversine_distance(cord_1, cord_2):
     lat_1, long_1 = float(cord_1.split(',')[0].strip('()\ ')), float(cord_1.split(',')[1].strip('()\ '))
     lat_2, long_2 = float(cord_2.split(',')[0].strip('()\ ')), float(cord_2.split(',')[1].strip('()\ '))
     del_lat = math.radians(abs(lat_1 - lat_2))
-    del_long =  math.radians(abs(long_1 - long_2))
+    del_long = math.radians(abs(long_1 - long_2))
     a = pow(math.sin(del_lat / 2), 2) + math.cos(long_1) * math.cos(long_2) * pow(math.sin(del_long / 2), 2)
     c = 2 * math.atan2(pow(a, .5), pow((1 - a), .5))
     distance = R * c
