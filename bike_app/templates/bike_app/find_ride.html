@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{#{% extends 'bike_app/index.html' %}#}
 
 <html lang="en">
 <head>
@@ -7,7 +6,7 @@
     <title>Find Ride</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
-<!--    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRno82ql3ddF-YqQfknHSBNFmAb0KwaJg&libraries=places&callback=initMap"async defer></script>-->
+    <script type="text/javascript" src="../static/bike_app/js/find_ride.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -48,7 +47,7 @@
 
 <!--Find Ride Form--> 
     <div class="form-container">
-        <form class="form-horizontal" action="/find_ride/" method="POST">
+        <div class="form-horizontal">
             <div class="pickup-dropoff-container clearfix">
                 <div class="form-group">
                     <div class="col-sm-6">
@@ -75,7 +74,7 @@
 
                     <div class="form-group">
                         <div class='input-group date' id='datetimepicker1'>
-                            <input type='text' class="form-control" name="datetimepicker-departure"/>
+                            <input type='text' class="form-control" name="datetimepicker-departure" id="datetimepicker"/>
                                 <span class="input-group-addon">
                                     <span class="glyphicon glyphicon-calendar"></span>
                                 </span>
@@ -84,7 +83,7 @@
                 </div>
                 <div class="form-group-submit">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <button type="submit" class="search-button-class" id="submit-button">Search</button>
+                        <button class="search-button-class" id="submit-button">Search</button>
                     </div>
                 </div>
 <!--                </div>-->
@@ -97,7 +96,7 @@
                     </div>
                 </div> -->
             </div>
-        </form>
+        </div>
     </div>
         <div id="map"></div>
         <div id="infowindow-content">
@@ -116,43 +115,9 @@
         var dropoff = document.getElementById('id_dropoff');
         var autocomplete_pickup = new google.maps.places.Autocomplete(input);
         var autocomplete_dropoff = new google.maps.places.Autocomplete(dropoff);
-
-
     };
 </script>
-<script>
-    $("#submitbutton").click(function() {
 
-        var csrf_token = '{{csrf_token}}';
-        var pickup = new google.maps.places.Autocomplete($("#id_pickup").val());
-        var dropoff = $("#id_dropoff").val();
-        var date = $("#id_date").val();
-        var time = $("#id_time").val();
-
-        $.ajax({
-            headers: { "X-CSRFToken": csrf_token },
-            type: "POST",
-            url: "/find_ride",
-            async: true,
-            data: {
-                pickup: pickup,
-                dropoff: dropoff,
-                date: date,
-                time: time
-            },
-            success: function(data) {
-
-                console.log('Success');
-            }
-         })
-    });
-</script>
-
-<script>
-    $(function () {
-        $('#datetimepicker1').datetimepicker();
-    });
-</script>
 
 </html>
 

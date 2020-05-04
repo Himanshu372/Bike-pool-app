@@ -9,9 +9,9 @@ $(function() {
         var increase_height_on_button_click = {
             init: function(){
                 $('#stopover-button').click(function(){
-                $('.departure-arrival-stopover-container').css({'height' : '+=25px'});
-                console.log('Height is increased');
-                });
+                    $('.departure-arrival-stopover-container').css({'height' : '+=25px'});
+                    console.log('Height is increased');
+                    });
             }
         }
 

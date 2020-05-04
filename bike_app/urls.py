@@ -2,13 +2,14 @@ from django.urls import include, path
 from rest_framework import routers
 from . import views
 from django.conf.urls import url
-
-router = routers.DefaultRouter()
-# # router.register(r'', views.home)
-router.register(r'find_ride', views.FindRide)
-router.register(r'offer_ride', views.OfferRide)
-router.register(r'login', views.UserLogin)
-router.register(r'signup', views.UserSignup)
+from rest_framework.urlpatterns import format_suffix_patterns
+#
+# router = routers.DefaultRouter()
+# # # router.register(r'', views.home)
+# router.register(r'find_ride', views.FindRide)
+# router.register(r'offer_ride/(?P<.*>)', views.OfferRide)
+# router.register(r'login', views.UserLogin)
+# router.register(r'signup', views.UserSignup)
 
 
 
@@ -19,10 +20,13 @@ router.register(r'signup', views.UserSignup)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', views.home),
-    # url(r'^offer_ride', views.offerRide, name = 'offer_ride'),
-    # url(r'^find_ride', views.findRide, name = 'find_ride'),
-    path('', include(router.urls)),
+    # path('', include(router.urls)),
+    url(r'find_ride|find_ride/?format=html', views.FindRide.as_view({'get': 'list', 'post': 'create'})),
+    url(r'^offer_ride', views.OfferRide.as_view({'get': 'list', 'post': 'create'})),
+    url(r'^login', views.UserLogin.as_view({'get': 'list', 'post': 'create'})),
+    url(r'^signup', views.UserSignup.as_view({'get': 'list', 'post': 'create'})),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 ]
 
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['html', 'json'])
