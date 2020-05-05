@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^offer_ride', views.OfferRide.as_view({'get': 'list', 'post': 'create'})),
     url(r'^login', views.UserLogin.as_view({'get': 'list', 'post': 'create'})),
     url(r'^signup', views.UserSignup.as_view({'get': 'list', 'post': 'create'})),
+    url(r'^show_rides', views.ShowRides.as_view({'get': 'list', 'post': 'create'})),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 ]
