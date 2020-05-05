@@ -15,12 +15,14 @@ $(function(){
                 url: "find_ride/",
                 async: true,
                 data: {
+                    format: "html",
                     pickup: pickup,
                     dropoff: dropoff,
                     datetime: datetimepicker
                 },
-                success: function(data){
-                    console.log('Success');
+                success: function(response){
+                    window.location.href = '/show_rides';
+                    show_rides(response);
                 }
              })
         });

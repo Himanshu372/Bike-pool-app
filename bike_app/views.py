@@ -22,7 +22,6 @@ from bike_app.processing_data import get_location, cal_haversine_distance
 
 
 
-
 def home(request):
     return render(request, 'bike_app/index.html')
 
@@ -118,7 +117,6 @@ class OfferRide(viewsets.ModelViewSet):
 class FindRide(viewsets.ModelViewSet):
     queryset = rideData.objects.all()
     template_name = 'bike_app/find_ride.html'
-    # post_template = 'bike_app/show_rides.html'
 
     def list(self, request, *args, **kwargs):
         form = findRideform
@@ -149,15 +147,16 @@ class FindRide(viewsets.ModelViewSet):
         serializer = findRideResponseSerializer()
         if results:
             results = serializer.serialize(results)
-            if request.accepted_renderer.format == 'html':
-                return Response(data=results, status=201, template_name=self.template_name)
-            else:
-                return Response(data=results, status=201)
-        else:
             return Response(data=results, status=201)
+        else:
+            return Response('No Rides found')
 
 
+class ShowRides(viewsets.ModelViewSet):
+    template_name = 'bike_app/show_rides.html'
 
+    def list(self, request, *args, **kwargs):
+        return render(request, template_name=self.template_name)
 
 
 
