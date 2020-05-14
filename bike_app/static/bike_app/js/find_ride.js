@@ -1,3 +1,5 @@
+import { show_rides } from './show_rides.js';
+
 $(function(){
 
     var find_ride = {
@@ -21,8 +23,8 @@ $(function(){
                     datetime: datetimepicker
                 },
                 success: function(response){
-                    window.location.href = '/show_rides';
                     show_rides(response);
+
                 }
              })
         });

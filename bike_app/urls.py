@@ -19,13 +19,13 @@ from rest_framework.urlpatterns import format_suffix_patterns
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('', views.home),
+    path('', views.home, name='home'),
     # path('', include(router.urls)),
     url(r'find_ride|find_ride/?format=html', views.FindRide.as_view({'get': 'list', 'post': 'create'})),
-    url(r'^offer_ride', views.OfferRide.as_view({'get': 'list', 'post': 'create'})),
-    url(r'^login', views.UserLogin.as_view({'get': 'list', 'post': 'create'})),
-    url(r'^signup', views.UserSignup.as_view({'get': 'list', 'post': 'create'})),
-    url(r'^show_rides', views.ShowRides.as_view({'get': 'list', 'post': 'create'})),
+    url(r'^offer_ride', views.OfferRide.as_view({'get': 'list', 'post': 'create'}), name='offer_ride'),
+    url(r'^login', views.UserLogin.as_view({'get': 'list', 'post': 'create'}), name='login'),
+    url(r'^signup', views.UserSignup.as_view({'get': 'list', 'post': 'create'}), name='signup'),
+    url(r'^show_rides', views.ShowRides.as_view({'get': 'list', 'post': 'create'}), name='show_rides'),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 
 ]
