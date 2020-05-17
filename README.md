@@ -8,10 +8,12 @@ Clone the repo using the command<br>
 on your local system<br>
 
 ### 2 
-Setting up virtual environment and activating the same<br>
-`python3 -m venv /path/to/repo`<br>
+Create a folder for setting up virtual environment<br>
+`mkdir venv`<br>
+Setup virtual environment inside venv/ folder<br>
+`python3 -m venv /path/to/venv repo`<br>
 For this step python3 has to pre-installed on your system<br>
-This will create a venv/ folder in the same repo<br>
+This will create a venv/ virutal environment folder at the repo base<br>
 
 For activating the virtual env, navigate to Scripts folder of the venv directory and use the command<br>
 `source Scripts/activate`<br>
