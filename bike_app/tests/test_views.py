@@ -1,10 +1,9 @@
 import mock
-from mock import Mock
 from django.test import TestCase, Client
 from django.urls import reverse
 from ..forms import userSignup, findRideform
 from ..models import rideData
-from ..views import OfferRide, FindRide
+from ..views import OfferRide, FindRide, UserSignup
 
 class TestHomeView(TestCase):
     def setUp(self):
@@ -39,9 +38,11 @@ class TestUserSignUpView(TestCase):
         self.assertTemplateUsed(get_response, 'bike_app/signup.html')
         self.assertTrue(form.is_valid())
 
-    # def test_user_signup_post(self):
-    #     post_response = self.client.post(path=reverse('signup'), data=self.form_data)
-    #     self.assertRedirects(post_response, '')
+    @mock.patch.object(UserSignup.queryset, 'filter')
+    def test_user_signup_post_success(self, mock_filter):
+        mock_filter.return_value.exists.return_value = False
+        post_response = self.client.post(path=reverse('signup'), data=self.form_data)
+        self.assertRedirects(post_response, '/')
 
 
 class TestOfferRideViewSet(TestCase):

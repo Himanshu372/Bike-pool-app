@@ -61,7 +61,7 @@ class UserSignup(viewsets.ModelViewSet):
                             email=user_email, password=user_password)
             new_user.save()
             messages.info(request, 'Thanks for signing in!')
-            return redirect('')
+            return redirect('/')
         # except:
         #     return Response('Form data not valid')
 
