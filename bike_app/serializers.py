@@ -13,9 +13,9 @@ class rideDataSerializer(serializers.ModelSerializer):
 class findRideResponseSerializer(Serializer):
     def get_dump_object(self, obj):
         mapped_obj = {
-            'user_id' : obj.user_id,
-            'distance' : obj.distance,
-            'depart_time' : obj.depart_time,
-            'fare' : obj.fare
+            'user_id': obj.user_id,
+            'distance': obj.distance,
+            'depart_time': obj.depart_time,
+            'fare': obj.fare
         }
         return mapped_obj

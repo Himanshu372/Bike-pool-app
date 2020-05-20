@@ -21,7 +21,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 urlpatterns = [
     path('', views.home, name='home'),
     # path('', include(router.urls)),
-    url(r'find_ride|find_ride/?format=html', views.FindRide.as_view({'get': 'list', 'post': 'create'})),
+    url(r'find_ride', views.FindRide.as_view({'get': 'list', 'post': 'create'}), name='find_ride'),
     url(r'^offer_ride', views.OfferRide.as_view({'get': 'list', 'post': 'create'}), name='offer_ride'),
     url(r'^login', views.UserLogin.as_view({'get': 'list', 'post': 'create'}), name='login'),
     url(r'^signup', views.UserSignup.as_view({'get': 'list', 'post': 'create'}), name='signup'),

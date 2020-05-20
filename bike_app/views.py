@@ -53,7 +53,7 @@ class UserSignup(viewsets.ModelViewSet):
         user_firstname = data['firstname']
         user_lastname = data['lastname']
         user_password = make_password(data['password'])
-        if self.queryset.filter(email = user_email).exists():
+        if self.queryset.filter(email=user_email).exists():
             messages.info(request, 'This email id already exists, kindly enter a different address')
             return redirect('/signup')
         else:
@@ -96,9 +96,9 @@ class OfferRide(viewsets.ModelViewSet):
             for i in range(0, len(data) - 6):
                 stopover_list.append(data['stopover_' + str(i)])
             stopover_lat_long_list = [str(get_location(k)) for k in stopover_list]
-            stopovers = str(stopover_lat_long_list)
+            stopovers = stopover_lat_long_list
         ride_data_obj = rideData(user_id=21, pickup=str(depart_lat_long),
-                                 dropoff=str(arrival_lat_long), stopovers=stopovers,
+                                 dropoff=str(arrival_lat_long), stopovers=str(stopovers),
                                  depart_time=depart_date_time_field, return_time=arrival_date_time_field,
                                  is_return=is_return)
         if self.queryset.filter(user_id=21, pickup=str(depart_lat_long),
@@ -139,7 +139,7 @@ class FindRide(viewsets.ModelViewSet):
             pickup_dist = cal_haversine_distance(str(pickup_lat_long), each_ride.pickup)
             dropoff_dist = cal_haversine_distance(str(dropoff_lat_long), each_ride.dropoff)
             distance_travelled = cal_haversine_distance(each_ride.pickup, each_ride.dropoff)
-            respone_obj = findRideResponse(user_id=each_ride.user_id, distance=pickup_dist,
+            respone_obj = findRideResponse(user_id=21, distance=pickup_dist,
                                            depart_time=datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d'),
                                            fare=round(50 + 12 * distance_travelled))
             results.append(respone_obj)

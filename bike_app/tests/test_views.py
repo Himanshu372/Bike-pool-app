@@ -1,7 +1,10 @@
+import mock
+from mock import Mock
 from django.test import TestCase, Client
 from django.urls import reverse
 from ..forms import userSignup
-
+from ..models import rideData
+from ..views import OfferRide
 
 class TestHomeView(TestCase):
     def setUp(self):
@@ -26,12 +29,36 @@ class TestUserLoginView(TestCase):
 class TestUserSignUpView(TestCase):
     def setUp(self):
         self.client = Client()
+        self.form_data = {'firstname': 'Babu', 'lastname': 'Bhatt',
+                            'email': 'babubhatt09@gmail.com', 'password': 'kewt5447'}
 
     def test_user_signup_get(self):
         get_response = self.client.get(reverse('signup'))
-        form_data = {'firstname': 'Babu', 'lastname': 'Bhatt',
-                     'email': 'babubhatt09gmail.com', 'password': 'kewt5447'}
-        form = userSignup(data=form_data)
+        form = userSignup(data=self.form_data)
         self.assertEqual(get_response.status_code, 200)
         self.assertTemplateUsed(get_response, 'bike_app/signup.html')
         self.assertTrue(form.is_valid())
+
+    # def test_user_signup_post(self):
+    #     post_response = self.client.post(path=reverse('signup'), data=self.form_data)
+    #     self.assertRedirects(post_response, '')
+
+
+class TestOfferRideViewSet(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.post_data = {'depart': 'Bremen Chowk, Vidyapeeth Road, Pune University, Aundh, Pune, Maharashtra, India',
+                          'arrival': 'B.A.R.C, Trombay, Mumbai, Maharashtra, India',
+                          'is_return': '',
+                          'stopover_0': '',
+                          'datetimepicker-departure': '05/17/2020 12:00 PM'}
+
+    def test_offer_ride_post_success(self):
+        post_response = self.client.post(reverse('offer_ride'), data=self.post_data)
+        self.assertEqual(post_response.status_code, 200)
+
+    @mock.patch.object(OfferRide.queryset, 'filter')
+    def test_offer_ride_post_object_exists(self, mock_filter):
+        mock_filter.return_value.exists.return_value = True
+        post_response_with_existing_object = self.client.post((reverse('offer_ride')), data=self.post_data)
+        self.assertEqual(post_response_with_existing_object.content.decode('utf-8'), 'A similar ride already exists')
