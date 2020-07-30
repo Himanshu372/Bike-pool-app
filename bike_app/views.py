@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 
 from django.shortcuts import render
 from django.core import serializers
@@ -10,11 +11,10 @@ from django.http import HttpRequest, HttpResponse
 
 from rest_framework import viewsets
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from bike_app.models import rideData, user
 from bike_app.serializers import rideDataSerializer, findRideResponseSerializer
-from bike_app.response_classes import findRideResponse
+from bike_app.response_classes import FindRideResponse, FindRideResponseEncode
 from bike_app.forms import findRideform, userLogin, userSignup
 from bike_app.processing_data import get_location, cal_haversine_distance
 
@@ -110,7 +110,7 @@ class OfferRide(viewsets.ModelViewSet):
         # except:
         #     return HttpResponse('Please check your input data')
 
-    def list(self, request):
+    def list(self, request, *args, **kwargs):
         return render(request, self.template_name)
 
 
@@ -135,19 +135,18 @@ class FindRide(viewsets.ModelViewSet):
         dropoff_lat_long = get_location(dropoff_loc)
         rides = self.queryset.filter(depart_time__date=date_time_obj.date())
         results = []
-        for each_ride in rides:
+        for i, each_ride in enumerate(rides):
             pickup_dist = cal_haversine_distance(str(pickup_lat_long), each_ride.pickup)
             dropoff_dist = cal_haversine_distance(str(dropoff_lat_long), each_ride.dropoff)
             distance_travelled = cal_haversine_distance(each_ride.pickup, each_ride.dropoff)
-            respone_obj = findRideResponse(user_id=21, distance=pickup_dist,
+            respone_obj = FindRideResponse(user_id=21, distance=pickup_dist,
                                            depart_time=datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d'),
                                            fare=round(50 + 12 * distance_travelled))
             results.append(respone_obj)
         results = sorted(results, key=lambda x: x.distance, reverse=True)
-        serializer = findRideResponseSerializer()
+        response = {i: vars(ride) for i, ride in enumerate(results)}
         if results:
-            results = serializer.serialize(results)
-            return Response(data=results, status=201)
+            return Response(data=response, status=201)
         else:
             return Response('No Rides found')
 

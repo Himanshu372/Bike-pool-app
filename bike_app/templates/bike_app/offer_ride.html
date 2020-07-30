@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="../static/bike_app/js/offer_ride.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAzdxHAyALpK_IyWNqoCIryUYpoeTiDgdo&libraries=places&callback=initMap"
-            async defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/momentjs/2.14.1/moment.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -124,33 +122,6 @@
     <span id="place-name" class="title"></span><br>
     <span id="place-address"></span>
 </div>
-
-
-<script>
-    function initMap() {
-        var input = document.getElementById('id_pickup');
-        var dropoff = document.getElementById('id_dropoff');
-        var stopovers = document.getElementById('id_stopovers');
-        var autocomplete_pickup = new google.maps.places.Autocomplete(input);
-        var autocomplete_dropoff = new google.maps.places.Autocomplete(dropoff);
-        var autocomplete_stopovers = new google.maps.places.Autocomplete(stopovers);
-    };
-
-    function addDateandTime(divName){
-        var addHTMLstring = '<div class="arrival-date-time-block"><label style="text-align: left; display: block; padding-left: 15px" id="arrival-date-time-label">Arrival Date & Time</label><div class="col-sm-6 clearfix"><div class="form-group"><div class="input-group date" id="datetimepicker2"><input type="text" class="form-control" name="datetimepicker-arrival"/><span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div></div>';
-        document.getElementById(divName).insertAdjacentHTML('beforeend', addHTMLstring);
-
-<!--        var script = document.createElement('script');-->
-<!--        script.type = 'text/javascript';-->
-<!--        script.src = '../static/bike_app/js_func.js'-->
-<!--        $('head').append(script);-->
-
-
-        console.log('Arrival date & time panel added');
-
-    }
-
-</script>
 </body>
 </html>
 

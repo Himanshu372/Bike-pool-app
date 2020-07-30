@@ -105,16 +105,27 @@ a {
         text-align: left;
 	}
 
-		.date-time-submit-container{
-			padding: 20px;
-			width: 50%;
-			background-color:#ededed;
-			display: inline-block;
-			height: 200px;
-			text-align: center;
-			position: relative;
-		}
+    .date-time-submit-container{
+        padding: 20px;
+        width: 50%;
+        background-color:#ededed;
+        display: inline-block;
+        height: 200px;
+        text-align: center;
+        position: relative;
+    }
 
+        .ride-container{
+            padding: 20px;
+            width: 50%;
+            background-color:#ededed;
+            display: inline-block;
+            height: 125px;
+            text-align: center;
+            position: relative;
+            margin-top: 20px;
+            margin-left: 25%;
+        }
 
 		.date-time-header{
 			background-color: #fff;
@@ -136,4 +147,18 @@ a {
 
                 .dropoff-textbox{
                     margin-top: 20px;
+                }
+
+                .ride-fare{
+                    float: left;
+                }
+
+                .ride-date{
+                    float: right;
+                }
+
+                .user-info{
+                    clear: both;
+                    display: inline-block;
+                    float: left;
                 }

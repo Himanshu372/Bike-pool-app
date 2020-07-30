@@ -10,6 +10,7 @@ class rideData(models.Model):
     pickup = models.CharField(max_length=1000, null=False)
     dropoff = models.CharField(max_length=1000, null=False)
     stopovers = models.CharField(max_length=1000, null=False)
+    # Should try using DatetimeDescriptor here for datetime field
     depart_time = models.DateTimeField(auto_now=False, auto_now_add=False, null = False)
     return_time = models.DateTimeField(auto_now=False, auto_now_add=False, null = True)
     is_return = models.BooleanField(default=False)
