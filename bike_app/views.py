@@ -1,20 +1,16 @@
 from datetime import datetime
-import json
 
 from django.shortcuts import render
-from django.core import serializers
-from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from django.shortcuts import redirect
 from django.contrib import messages
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpResponse
 
 from rest_framework import viewsets
 from rest_framework.response import Response
 
 from bike_app.models import rideData, user
-from bike_app.serializers import rideDataSerializer, findRideResponseSerializer
-from bike_app.response_classes import FindRideResponse, FindRideResponseEncode
+from bike_app.response_classes import FindRideResponse
 from bike_app.forms import findRideform, userLogin, userSignup
 from bike_app.processing_data import get_location, cal_haversine_distance
 
@@ -140,7 +136,7 @@ class FindRide(viewsets.ModelViewSet):
             dropoff_dist = cal_haversine_distance(str(dropoff_lat_long), each_ride.dropoff)
             distance_travelled = cal_haversine_distance(each_ride.pickup, each_ride.dropoff)
             respone_obj = FindRideResponse(user_id=21, distance=pickup_dist,
-                                           depart_time=datetime.strftime(each_ride.depart_time.date(), '%Y-%m-%d'),
+                                           depart_time=datetime.strftime(each_ride.depart_time, '%H:%M'),
                                            fare=round(50 + 12 * distance_travelled))
             results.append(respone_obj)
         results = sorted(results, key=lambda x: x.distance, reverse=True)

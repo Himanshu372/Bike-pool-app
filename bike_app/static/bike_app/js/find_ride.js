@@ -41,7 +41,7 @@ $(function(){
                 for (var i = 0; i < total_rides; i++) {
                     var ride_div = document.createElement("div");
                     var ride_html = "<h3 class='ride-fare'>Fare: " + rides[i].fare +
-                     "</h3><h3 class='ride-date'>Date: " + rides[i].depart_time +
+                     "</h3><h3 class='ride-date'>Time: " + rides[i].depart_time +
                      "</h3><h3 class='user-info'>Name: " + rides[i].user_id + "</h3></div>";
                     ride_div.className = "ride-container";
                     ride_div.innerHTML = ride_html;
