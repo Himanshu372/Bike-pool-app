@@ -1,8 +1,6 @@
-from django.db import models
 
 # Create your models here.
 from django.db import models
-import datetime
 
 
 class rideData(models.Model):
@@ -18,7 +16,12 @@ class rideData(models.Model):
     # def __str__(self):
     #     return 'Ride starts from {} at {} and ends at {} with stopovers at {}'.format(self.pickup, datetime.datetime(self.depart_time).time(), self.dropoff, )
 
-
+class UserQuerySet(models.QuerySet):
+    def get(self, index, default=None):
+        try:
+            return self[index]
+        except IndexError:
+            return default
 
 
 class user(models.Model):
@@ -27,6 +30,7 @@ class user(models.Model):
     last_name = models.CharField(max_length=1000, null=False)
     email = models.EmailField(max_length=1000, null=False)
     password = models.CharField(max_length=1000, null=False)
+    objects = UserQuerySet.as_manager()
 
 
 

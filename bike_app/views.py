@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.shortcuts import render
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import HttpResponse
@@ -31,6 +31,21 @@ class UserLogin(viewsets.ModelViewSet):
         login_form = self.login_form
         args = {'form': login_form}
         return render(request, self.template_name, args)
+
+    def create(self, request, *args, **kwargs):
+        data = request.POST
+        email, password = data['email'], data['password']
+        filtered_queryset = self.queryset.filter(email=email)
+        if len(filtered_queryset) == 1:
+            # Custom method for queryset, implemented in model
+            user_obj = filtered_queryset.get(0)
+            user_id, user_password = user_obj.user_id, user_obj.password
+            if check_password(password, user_password):
+                return Response({'user_id': user_id, 'comments': 'User verified'})
+            else:
+                return Response({'user_id': user_id, 'comments': 'Password is incorrect'})
+        return Response({'user_id': 0, 'comments': 'User not verified'}, status=500)
+
 
 class UserSignup(viewsets.ModelViewSet):
     queryset = user.objects.all()
