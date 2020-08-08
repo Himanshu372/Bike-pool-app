@@ -18,11 +18,30 @@ class TestHomeView(TestCase):
 class TestUserLoginView(TestCase):
     def setUp(self):
         self.client = Client()
+        self.firstname = 'jackal'
+        self.lastname = 'orwell'
+        self.email = 'jackal09@gmail.com'
+        self.password = 'heu@990!'
 
     def test_user_login_get(self):
         get_response = self.client.get(reverse('login'))
         self.assertEqual(get_response.status_code, 200)
         self.assertTemplateUsed(get_response, 'bike_app/login.html')
+
+    def test_user_login_post_success(self):
+        post_signup_data = {'firstname': self.firstname, 'lastname': self.lastname, 'email': self.email,
+                            'password': self.password}
+        self.client.post(reverse('signup'), data=post_signup_data)
+        post_data = {'email': self.email, 'password': self.password}
+        post_response = self.client.post(reverse('login'), data=post_data)
+        self.assertEqual(post_response.status_code, 200)
+        self.assertEqual(post_response.data['comments'], 'User verified')
+
+    def test_user_login_post_fail(self):
+        post_data = {'email': 'hex@gmail.com', 'password': self.password}
+        post_response = self.client.post(reverse('login'), data=post_data)
+        self.assertEqual(post_response.status_code, 500)
+        self.assertEqual(post_response.data['comments'], 'User not verified')
 
 
 class TestUserSignUpView(TestCase):
