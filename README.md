@@ -8,29 +8,14 @@ Clone the repo using the command<br>
 on your local system<br>
 
 ### 2 
-Create a folder for setting up virtual environment<br>
-`mkdir venv`<br>
-Setup virtual environment inside venv/ folder<br>
-`python3 -m venv /path/to/venv repo`<br>
-For this step python3 has to pre-installed on your system<br>
-This will create a venv/ virutal environment folder at the repo base<br>
-
-For activating the virtual env, navigate to Scripts folder of the venv directory and use the command<br>
-`source Scripts/activate`<br>
-You'll able to see `(venv)` in your shell, which is an indicator that virtual environment is active<br>
+App has been containerized so that it can run on any system. To able to run the app, please check that Docker is installed on your system(or can be downloaded from here https://www.docker.com/products/docker-desktop)<br>
+To create a container run the following command<br>
+`docker build -t bike_pool_app`(A tag of 'bike_pool_app' has been applied to the container)<br>
+To run the application, use the following command<br> 
+`docker run -it -p 8020:8020 bike_pool_app`<br>
+The application is now running on the port 8020, play on!!!!
 
 ### 3 
-Downloading required packages from requirements.txt<br>
-`pip install -r requirements.txt`<br>
-This is download all the required packages to virtual env<br>
-
-### 4 
-Executing code<br>
-Go the level where you can manage.py file in the repo(which is the base level) and execute this command<br> 
-`python manage.py runserver`<br>
-This is will start the application in development envrionment<br>
-
-### 5 
 Executing tests<br>
 For executing tests, use the following command at the 'tests' directory level inside the app<br>
 `./manage.py test bike_app.tests.{test_filename}`<br>
