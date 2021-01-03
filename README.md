@@ -10,7 +10,7 @@ on your local system<br>
 ### 2 
 App has been containerized so that it can run on any system. To able to run the app, please check that Docker is installed on your system(or can be downloaded from here https://www.docker.com/products/docker-desktop)<br>
 To create a container run the following command<br>
-`docker build -t bike_pool_app`(A tag of 'bike_pool_app' has been applied to the container)<br>
+`docker build -t bike_pool_app .`(A tag of 'bike_pool_app' has been applied to the container)<br>
 To run the application, use the following command<br> 
 `docker run -it -p 8020:8020 bike_pool_app`<br>
 The application is now running on the port 8020, play on!!!!
