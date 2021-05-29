@@ -24,7 +24,7 @@ pickleshare==0.7.5
 prompt-toolkit==3.0.5
 ptyprocess==0.7.0
 pycparser==2.19
-Pygments==2.6.1
+Pygments==2.7.4
 PyJWT==1.7.1
 python3-openid==3.1.0
 pytz==2019.2
